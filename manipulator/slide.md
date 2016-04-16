@@ -1,6 +1,6 @@
 class: center, middle
 
-# C++のマニピュレータ
+# マニピュレータの作り方
 
 ## hatsusato
 
