@@ -7,8 +7,11 @@ class: center, middle
 ### 2016/04/28
 
 ---
+layout: true
 
 # 自己紹介
+
+---
 
 ## hatsusato
 
