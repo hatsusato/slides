@@ -68,6 +68,8 @@ layout: false
 
 2. マニピュレータとは
 
+3. マニピュレータのしくみ
+
 ---
 name: I/O in C++
 layout: true
@@ -149,5 +151,100 @@ std::cout << M_PI << std::endl << std::setprecision(16)
 --
 
 ## .center[**どうしてそんなふうにうまくいくの？**]
+
+---
+name: mechanism
+layout: true
+
+# 3. マニピュレータのしくみ
+
+---
+template: mechanism
+layout: true
+
+- `operator<<` のオーバーロードがどうなっているのか調べてみる
+
+---
+
+```C++
+ostream& operator<<(ostream& os, char ch);
+ostream& operator<<(ostream& os, const char* s);
+ostream& operator<<(ostream& os, const string& str);
+ostream& ostream::operator<<(short value);
+ostream& ostream::operator<<(int value);
+ostream& ostream::operator<<(long value);
+ostream& ostream::operator<<(double value);
+ostream& ostream::operator<<(bool value);
+ostream& ostream::operator<<(const void* value);
+ostream& ostream::operator<<(ostream& (*func)(ostream&));
+etc...
+```
+
+---
+
+```C++
+ostream& operator<<(ostream& os, char ch);
+ostream& operator<<(ostream& os, const char* s);
+ostream& operator<<(ostream& os, const string& str);
+ostream& ostream::operator<<(short value);
+ostream& ostream::operator<<(int value);
+ostream& ostream::operator<<(long value);
+ostream& ostream::operator<<(double value);
+ostream& ostream::operator<<(bool value);
+ostream& ostream::operator<<(const void* value);
+*ostream& ostream::operator<<(ostream& (*func)(ostream&));
+etc...
+```
+
+ん？
+
+---
+template: mechanism
+layout: true
+
+---
+
+```C++
+ostream& ostream::operator<<(ostream& (*func)(ostream&));
+```
+
+- `operator<<` のオーバーロードには関数ポインタを受け取るものがある
+
+	- `std::ostream&` を受け取って `std::ostream&` を返す関数ポインタ
+
+- このオーバーロードがマニピュレータを処理している
+
+---
+
+## 実装例
+
+```C++
+namespace std {
+
+ostream& ostream::operator<<(ostream& (*func)(ostream&)) {
+  return func(os);
+}
+
+ostream& endl(ostream& os) {
+  return os << '\n' << flush;
+}
+
+}  // namespace std
+
+int main() {
+  std::cout << 42 << std::endl;
+}
+```
+
+- これでもう `std::endl` みたいなマニピュレータは作れますね！
+
+---
+
+## 疑問
+
+- `std::endl` はそのまま `operator<<` に流すだけだが、
+  `std::setprecision` みたいな引数をとるやつはどうなっているんだ？
+
+	- 疑問は次で解決
 
 ---
