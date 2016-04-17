@@ -153,17 +153,17 @@ layout: true
 
 ---
 
-- ストリームを制御する機能を持つオブジェクトのこと
+- ストリームを制御する機能を持つオブジェクト
 
-- 使い方はマニピュレータをストリームの入出力に混ぜるだけ
+- 使い方: マニピュレータをストリームの入出力に混ぜるだけ
 
 ---
 
-- マニピュレータの例
-	- `std::endl`
-	- `std::boolalpha`
-	- `std::setprecision`
-	- etc.
+## マニピュレータの例
+- `std::endl`
+- `std::boolalpha`
+- `std::setprecision`
+- etc.
 
 ```C++
 std::cout << true << std::endl << std::boolalpha
@@ -175,7 +175,12 @@ std::cout << M_PI << std::endl << std::setprecision(16)
 // 3.14159
 // 3.141592653589793
 ```
+???
+endl: 改行してフラッシュ
 
+boolalpha: 真偽値を(0/1)ではなく(false/true)で出力
+
+setprecision: 浮動小数点数の表示精度を指定
 --
 
 ## .center[**どうしてそんなふうにうまくいくの？**]
