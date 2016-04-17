@@ -86,7 +86,7 @@ layout: true
 
 ---
 
-```
+```C++
 int n, m;
 std::cin >> n >> m;
 std::cout << n << m;
@@ -101,7 +101,7 @@ std::cout << n << m;
 
 ---
 
-```
+```C++
 int n, m;
 std::cin.operator>>(n).operator>>(m);
 std::cout.operator<<(n).operator<<(m);
