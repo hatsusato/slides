@@ -66,6 +66,8 @@ layout: false
 
 1. C++の入出力
 
+2. マニピュレータとは
+
 ---
 name: I/O in C++
 layout: true
@@ -112,5 +114,40 @@ std::cout.operator<<(n).operator<<(m);
 - メソッドチェインを簡便に書けるので複数の要素に対する入出力も簡単にできる
 
 - 以降では簡単のために `std::ostream` のみを扱う
+
+---
+name: what's manipulator
+layout: true
+
+# 2. マニピュレータとは
+
+---
+
+- ストリームを制御する機能を持つオブジェクトのこと
+
+- 使い方はマニピュレータをストリームの入出力に混ぜるだけ
+
+---
+
+- マニピュレータの例
+	- `std::endl`
+	- `std::boolalpha`
+	- `std::setprecision`
+	- etc.
+
+```C++
+std::cout << true << std::endl << std::boolalpha
+          << true << std::endl;
+// 1
+// true
+std::cout << M_PI << std::endl << std::setprecision(16)
+          << M_PI << std::endl;
+// 3.14159
+// 3.141592653589793
+```
+
+--
+
+## .center[**どうしてそんなふうにうまくいくの？**]
 
 ---
