@@ -44,7 +44,7 @@ layout: true
 
 - まず _Effective STL_ を読み、その後 _Effective Modern C++_ を読む予定です
 
-	- _Effective C++_ は昨年度の**終焉のC++2015**で読みました。
+	- _Effective C++_ は昨年度の 終焉のC++2015 で読みました。
 
 - 皆さんの参加をお待ちしています
 
