@@ -195,7 +195,7 @@ layout: true
 template: mechanism
 layout: true
 
-- `operator<<` のオーバーロードがどうなっているのか調べてみる
+`operator<<` のオーバーロードがどうなっているのか調べてみる
 
 ---
 
@@ -213,6 +213,28 @@ ostream& ostream::operator<<(ostream& (*func)(ostream&));
 etc...
 ```
 
+???
+`operator<<` と `ostream::operator<<` の違いは
+`ostream`の本当の型 `basic_ostream<CharT, Traits>` の
+`CharT` に依存するかどうか
+
+```C++
+template< class CharT, class Traits>
+basic_ostream<CharT,Traits>&
+operator<<(basic_ostream<CharT,Traits>& os, CharT ch);
+
+template< class CharT, class Traits>
+basic_ostream<CharT,Traits>&
+operator<<(basic_ostream<CharT,Traits>& os, char ch);
+
+template< class Traits >
+basic_ostream<char,Traits>&
+operator<<(basic_ostream<char,Traits>& os, char ch);
+
+template< class Traits >
+basic_ostream<char,Traits>&
+operator<<(basic_ostream<char,Traits>& os, signed char ch);
+```
 ---
 
 ```C++
@@ -243,10 +265,10 @@ ostream& ostream::operator<<(ostream& (*func)(ostream&));
 
 - `operator<<` のオーバーロードには関数ポインタを受け取るものがある
 
-	- `std::ostream&` を受け取って `std::ostream&` を返す関数ポインタ
-
 - このオーバーロードがマニピュレータを処理している
 
+???
+`std::ostream&` を受け取って `std::ostream&` を返す関数ポインタ
 ---
 
 ## 実装例
@@ -269,15 +291,26 @@ int main() {
 }
 ```
 
-- これでもう `std::endl` みたいなマニピュレータは作れますね！
+これでもう `std::endl` みたいなマニピュレータは自分で作れますね！
 
 ---
 
 ## 疑問
 
-- `std::endl` はそのまま `operator<<` に流すだけだが、
-  `std::setprecision` みたいな引数をとるやつはどうなっているんだ？
+- `std::endl` の型は `ostream& (*)(ostream&)`
 
-	- 疑問は次で解決
+- `std::setprecision` の型は？
 
+	- 引数をとるマニピュレータは関数呼び出しの戻り値がストリームに流れる
+
+	- 戻り値の型が  `ostream& (*)(ostream&)` なのか？
+
+	- どういうしくみ？
+
+```C++
+std::cout << std::setprecision(16) << M_PI << std::endl;
+```
+
+???
+疑問はマニピュレータの作り方で解消
 ---
