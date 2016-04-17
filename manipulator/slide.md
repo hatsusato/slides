@@ -7,6 +7,7 @@ class: center, middle
 ### 2016/04/28
 
 ---
+name: self-introduction
 layout: true
 
 # 自己紹介
@@ -30,6 +31,7 @@ layout: true
 - プログラミング言語を作りたい
 
 ---
+name: advertisement
 layout: true
 
 # 宣伝
@@ -68,6 +70,7 @@ layout: false
 1. C++の入出力
 
 ---
+name: I/O in C++
 
 # 1. C++の入出力
 
