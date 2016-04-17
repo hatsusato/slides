@@ -8,11 +8,8 @@ class: center, middle
 
 ---
 name: self-introduction
-layout: true
 
 # 自己紹介
-
----
 
 ## hatsusato
 
