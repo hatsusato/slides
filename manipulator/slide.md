@@ -12,13 +12,13 @@ name: self-introduction
 # 自己紹介
 
 ## hatsusato
-
 - KMC 5回生のM1
 
 - 情報学研究科通信情報システム専攻計算機ソフトウェア分野
   - 理学部数学系出身
 
 - C++フリーク
+  ![enter](../enter.png)
 
 - プログラミング言語を作りたい
 
