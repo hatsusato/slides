@@ -252,6 +252,8 @@ etc...
 
 ん？
 
+???
+`std::ostream&` を受け取って `std::ostream&` を返す関数ポインタ
 ---
 template: mechanism
 layout: true
@@ -259,15 +261,17 @@ layout: true
 ---
 
 ```C++
-ostream& ostream::operator<<(ostream& (*func)(ostream&));
+ostream& ostream::operator<<(ostream& (*func)(ostream&)) {
+  return func(*this);
+}
 ```
 
 - `operator<<` のオーバーロードには関数ポインタを受け取るものがある
 
 - このオーバーロードがマニピュレータを処理している
 
-???
-`std::ostream&` を受け取って `std::ostream&` を返す関数ポインタ
+- 引数のマニピュレータに自分自身(`ostream`)を渡して、戻り値をそのまま返す関数
+
 ---
 
 ## 実装例
