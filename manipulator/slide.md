@@ -79,12 +79,13 @@ layout: false
 
 # 目次
 
+.larger[
 1. C++の入出力
 
 2. マニピュレータとは
 
 3. マニピュレータのしくみ
-
+]
 ---
 name: I/O in C++
 layout: true
@@ -181,7 +182,7 @@ boolalpha: 真偽値を(0/1)ではなく(false/true)で出力
 setprecision: 浮動小数点数の表示精度を指定
 --
 
-## .center[**どうしてそんなふうにうまくいくの？**]
+.center[.larger[どうしてそんなふうにうまくいくの？]]
 
 ---
 name: mechanism
