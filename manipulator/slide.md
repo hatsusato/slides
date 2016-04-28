@@ -1,6 +1,6 @@
 class: center, middle
 
-# マニピュレータの作り方
+# マニピュレータのしくみ
 
 ## hatsusato
 
