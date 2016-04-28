@@ -277,20 +277,12 @@ ostream& ostream::operator<<(ostream& (*func)(ostream&)) {
 ## 実装例
 
 ```C++
-namespace std {
-
-ostream& ostream::operator<<(ostream& (*func)(ostream&)) {
-  return func(os);
+std::ostream& endl(std::ostream& os) {
+  return os << '\n' << std::flush;
 }
-
-ostream& endl(ostream& os) {
-  return os << '\n' << flush;
-}
-
-}  // namespace std
 
 int main() {
-  std::cout << 42 << std::endl;
+  std::cout << 42 << endl;
 }
 ```
 
