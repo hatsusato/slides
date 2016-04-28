@@ -305,7 +305,10 @@ int main() {
 ```C++
 std::cout << std::setprecision(16) << M_PI << std::endl;
 ```
+---
+name: preview
+layout: true
 
-???
-疑問はマニピュレータの作り方で解消
+# 次回予告
+
 ---
