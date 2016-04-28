@@ -13,19 +13,17 @@ name: self-introduction
 
 ## hatsusato
 
-- Twitter: [@hatsusato](https://twitter.com/hatsusato)
-
-	- 今期の目標はアニメ感想をつぶやくこと
-
-- GitHub: [hatsusato](https://github.com/hatsusato)
-
-	- C89コンパイラの進捗だめです
+- KMC 5回生のM1
 
 - 理学部数学系 -> 情報学研究科通信情報システム専攻計算機ソフトウェア分野
 
 - C++フリーク
 
 - プログラミング言語を作りたい
+
+- Twitter: [@hatsusato](https://twitter.com/hatsusato)
+
+- GitHub: [hatsusato](https://github.com/hatsusato)
 
 ---
 name: advertisement
