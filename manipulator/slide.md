@@ -1,6 +1,6 @@
 class: center, middle
 
-# マニピュレータのしくみ
+# How to Manipulate Manipulators
 
 ## hatsusato
 
