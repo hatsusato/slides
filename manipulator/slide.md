@@ -4,7 +4,7 @@ class: center, middle
 
 ## hatsusato
 
-### 2016/04/28 @ KMC例会
+### 2016/05/23
 
 ---
 name: self-introduction
