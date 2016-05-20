@@ -222,17 +222,25 @@ etc...
 
 ---
 
+関数ポインタを受け取るオーバーロードは以下のような実装になる
+
 ```C++
-ostream& ostream::operator<<(ostream& (*func)(ostream&)) {
+*ostream& ostream::operator<<(ostream& (*func)(ostream&)) {
   return func(*this);
 }
 ```
 
-- `operator<<` のオーバーロードには関数ポインタを受け取るものがある
+- 引数のマニピュレータを自分自身 (`ostream&`) に適用して、戻り値をそのまま返すメンバ関数
 
-- このオーバーロードがマニピュレータを処理している
+- `ostream&` を戻り値として返すことでシフト演算子を続けて書くことができる
 
-- 引数のマニピュレータに自分自身(`ostream`)を渡して、戻り値をそのまま返す関数
+```C++
+std::cout << std::endl << std::endl;
+std::cout.operator<<(std::endl).operator<<(std::endl);
+```
+
+???
+シフト演算子オーバーロードはメソッドチェーンのシンタックスシュガーである
 
 ---
 
