@@ -244,19 +244,24 @@ std::cout.operator<<(std::endl).operator<<(std::endl);
 
 ---
 
-## 実装例
+以上を踏まえて `std::endl` と同じ機能をもつ `myendl` マニピュレータを実装してみる
 
 ```C++
-std::ostream& endl(std::ostream& os) {
+std::ostream& myendl(std::ostream& os) {
   return os << '\n' << std::flush;
 }
 
 int main() {
-  std::cout << 42 << endl;
+  std::cout << 42 << myendl;
 }
 ```
 
-これでもう `std::endl` みたいなマニピュレータは自分で作れますね！
+ね、簡単でしょう？
+
+???
+`std::flush` マニピュレータは `ostream` の `flush` メンバ関数を呼び出すマニピュレータ
+
+`flush` メンバ関数はストリームをフラッシュする
 
 ---
 
