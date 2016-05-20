@@ -1,10 +1,10 @@
 class: center, middle
 
-# マニピュレータのしくみ
+# How to Manipulate Manipulators
 
 ## hatsusato
 
-### 2016/04/28 @ KMC例会
+### 2016/05/23
 
 ---
 name: self-introduction
@@ -27,55 +27,6 @@ name: self-introduction
 - GitHub: [hatsusato](https://github.com/hatsusato)
 
 ---
-name: advertisement
-layout: true
-
-# 宣伝
-
----
-
-## 終焉のC++2016
-
-- C++を勉強するプロジェクト
-
-	- 毎週火曜20時から
-
-- 予定
-
-	- _Effective STL_ <- now!
-
-	- _Effective Modern C++_
-
-- 既読
-
-	- _Effective C++_
-
-???
-プロコンなどでC++を使う機会がある人が対象
-
-これからC++を勉強するという人はこのプロジェクトだけでは不十分
-
-_Effective C++_ は昨年度の 終焉のC++2015 で読んだ
----
-
-## C89コンパイラ
-
-- https://github.com/kmc-jp/c89-compiler
-
-- ノリと勢いでC89コンパイラを作る
-
-	- コミックマーケットC90に出したい
-
-- 手伝ってくれる仲間を絶賛募集中
-
-???
-C89には間に合わなかったので今度こそ完成させたい
-
-開発メンバーが若くないので勢いが足りない
-
-C言語がわかる人もわからない人も募集中
----
-layout: false
 
 # 目次
 
@@ -94,56 +45,58 @@ layout: true
 
 ---
 
-- ストリーム: 入出力を抽象化した概念
+## ストリーム
 
-- ストリーム操作の肝はシフト演算子オーバーロード
+- 入出力をストリームという概念で抽象化する
+
+  - ストリームに対する操作を介して任意の入出力を操作する
+
+- シフト演算子オーバーロードによってストリーム操作を統一的に扱う
+
+ストリームの例
+
+```C++
+iostream      // 標準入出力
+fstream       // ファイル入出力
+stringstream  // 文字列ストリーム
+```
 
 ???
 C++では入出力をストリームに対する操作として扱う
 
-ストリームの抽象化により `stringstream` や `iostream` などを共通の構文で操作できる
+ストリームの抽象化により様々なストリームを共通の構文で操作できる
+
+その共通の構文がシフト演算子オーバーロード
+
 ---
-template: I/O in C++
-layout: true
 
 ## シフト演算子オーバーロード
 
----
+- シフト演算子がストリームに対してオーバーロードされている
+  - 最左辺にストリームオブジェクトがくる
 
 ```C++
 int n, m;
-std::cin >> n >> m;
-std::cout << n << m;
+std::cin >> n >> m;   // 標準入力から整数を2つ取る
+std::cout << n << m;  // 標準出力へ整数を2つ出す
 ```
 
 - 入力: `operator>>`
 
 - 出力: `operator<<`
 
-- 視覚的にわかりやすい
+- 簡単便利わかりやすい
 
-- 以降では簡単のために `std::ostream` のみを扱う
-
----
-
-```C++
-int n, m;
-std::cin.operator>>(n).operator>>(m);
-std::cout.operator<<(n).operator<<(m);
-```
-
-- 入力: `operator>>`
-
-- 出力: `operator<<`
-
-- 視覚的にわかりやすい
-
-- 以降では簡単のために `std::ostream` のみを扱う
+- 以降では簡単のために `std::ostream` (出力ストリーム) のみを扱う
 
 ???
-シフト演算子は実際にはこのように呼び出されている
+C++ではシフト演算子をストリームに対してオーバーロードしており、
+それによって様々な入出力を簡便に行うことができる
 
-二項演算子でつなぐだけでメソッドチェインが書けるという発明
+右シフト演算子で入力、左シフト演算子で出力を行う
+
+左辺にストリームオブジェクトが置かれるので、シフトの向きとI/Oが対応する
+
 ---
 name: what's manipulator
 layout: true
@@ -154,32 +107,61 @@ layout: true
 
 - ストリームを制御する機能を持つオブジェクト
 
-- 使い方: マニピュレータをストリームの入出力に混ぜるだけ
+	- ストリームに対して入出力することで機能が発動する
+
+- マニピュレータの例
+
+	- `std::endl`
+		- 改行してフラッシュ
+
+	- `std::boolalpha`
+		- 真偽値を `0/1` ではなく `false/true` で出力
+
+	- `std::setprecision`
+		- 浮動小数点数の表示精度を指定
 
 ---
 
-## マニピュレータの例
-- `std::endl`
-- `std::boolalpha`
-- `std::setprecision`
-- etc.
+- 基本的なマニピュレータは `<ios>`, `<istream>`, `<ostream>` にある
+
+  - `<iostream>` をインクルードすると全部入る
+
+- 引数を取ってより詳細な制御をするマニピュレータは
+  `<iomanip>` ヘッダの中に入っている
+
+???
+`<iomanip>` に入っているのは引数を取るマニピュレータ
+
+それ以外のヘッダに入っているのは引数を取らないマニピュレータ
+
+---
 
 ```C++
-std::cout << true << std::endl << std::boolalpha
-          << true << std::endl;
-// 1
-// true
-std::cout << M_PI << std::endl << std::setprecision(16)
-          << M_PI << std::endl;
-// 3.14159
-// 3.141592653589793
+#include <cmath>
+#include <iomanip>
+#include <iostream>
+
+int main() {
+  std::cout << true << std::endl << std::boolalpha
+            << true << std::endl;
+  // 1
+  // true
+  std::cout << M_PI << std::endl << std::setprecision(16)
+            << M_PI << std::endl;
+  // 3.14159
+  // 3.141592653589793
+}
 ```
+
 ???
-endl: 改行してフラッシュ
+`bool` 値はデフォルトで `0/1` で出力されるが、
+`std::boolalpha` で `false/true` で表示するようにできる
+逆に `std::noboolalpha` で元に戻すことができる
 
-boolalpha: 真偽値を(0/1)ではなく(false/true)で出力
+浮動小数点数はデフォルトで6桁までしか表示されないが、
+`std::setprecision` を使うと好きな精度で
+出力させることができるようになる
 
-setprecision: 浮動小数点数の表示精度を指定
 --
 
 .center[.larger[どうしてそんなふうにうまくいくの？]]
@@ -191,12 +173,8 @@ layout: true
 # 3. マニピュレータのしくみ
 
 ---
-template: mechanism
-layout: true
 
 `operator<<` のオーバーロードがどうなっているのか調べてみる
-
----
 
 ```C++
 ostream& operator<<(ostream& os, char ch);
@@ -213,28 +191,13 @@ etc...
 ```
 
 ???
-`operator<<` と `ostream::operator<<` の違いは
+グローバルの `operator<<` と `ostream::operator<<` の違いは
 `ostream`の本当の型 `basic_ostream<CharT, Traits>` の
 `CharT` に依存するかどうか
 
-```C++
-template< class CharT, class Traits>
-basic_ostream<CharT,Traits>&
-operator<<(basic_ostream<CharT,Traits>& os, CharT ch);
-
-template< class CharT, class Traits>
-basic_ostream<CharT,Traits>&
-operator<<(basic_ostream<CharT,Traits>& os, char ch);
-
-template< class Traits >
-basic_ostream<char,Traits>&
-operator<<(basic_ostream<char,Traits>& os, char ch);
-
-template< class Traits >
-basic_ostream<char,Traits>&
-operator<<(basic_ostream<char,Traits>& os, signed char ch);
-```
 ---
+
+`operator<<` のオーバーロードがどうなっているのか調べてみる
 
 ```C++
 ostream& operator<<(ostream& os, char ch);
@@ -253,40 +216,52 @@ etc...
 ん？
 
 ???
-`std::ostream&` を受け取って `std::ostream&` を返す関数ポインタ
----
-template: mechanism
-layout: true
+`sted::ostream&` を受け取って `std::ostream&` を返す関数ポインタ
+を受け取るシフト演算子オーバーオードが
+`ostream` の公開メンバに存在する
 
 ---
+
+関数ポインタを受け取るオーバーロードは以下のような実装になる
 
 ```C++
-ostream& ostream::operator<<(ostream& (*func)(ostream&)) {
+*ostream& ostream::operator<<(ostream& (*func)(ostream&)) {
   return func(*this);
 }
 ```
 
-- `operator<<` のオーバーロードには関数ポインタを受け取るものがある
+- 引数のマニピュレータを自分自身 (`ostream&`) に適用して、戻り値をそのまま返すメンバ関数
 
-- このオーバーロードがマニピュレータを処理している
+- `ostream&` を戻り値として返すことでシフト演算子を続けて書くことができる
 
-- 引数のマニピュレータに自分自身(`ostream`)を渡して、戻り値をそのまま返す関数
+```C++
+std::cout << std::endl << std::endl;
+std::cout.operator<<(std::endl).operator<<(std::endl);
+```
+
+???
+シフト演算子オーバーロードはメソッドチェーンのシンタックスシュガーである
 
 ---
 
-## 実装例
+以上を踏まえて `std::endl` と同じ機能をもつ `myendl` マニピュレータを実装してみる
 
 ```C++
-std::ostream& endl(std::ostream& os) {
+std::ostream& myendl(std::ostream& os) {
   return os << '\n' << std::flush;
 }
 
 int main() {
-  std::cout << 42 << endl;
+  std::cout << 42 << myendl;
 }
 ```
 
-これでもう `std::endl` みたいなマニピュレータは自分で作れますね！
+ね、簡単でしょう？
+
+???
+`std::flush` マニピュレータは `ostream` の `flush` メンバ関数を呼び出すマニピュレータ
+
+`flush` メンバ関数はストリームをフラッシュする
 
 ---
 
@@ -298,13 +273,21 @@ int main() {
 
 	- 引数をとるマニピュレータは関数呼び出しの戻り値がストリームに流れる
 
-	- 戻り値の型が  `ostream& (*)(ostream&)` なのか？
+	- 戻り値の型が `ostream& (*)(ostream&)` なのか？
 
 	- どういうしくみ？
 
 ```C++
 std::cout << std::setprecision(16) << M_PI << std::endl;
 ```
+
+???
+引数を取るマニピュレータは引数なしマニピュレータのように簡単には行かない
+
+具体的には、マニピュレータが状態を持たないといけないので、関数ポインタでは表現できない
+
+標準ライブラリの引数を取るマニピュレータの型は未規定である
+
 ---
 name: preview
 layout: true
