@@ -315,3 +315,35 @@ layout: true
 - `unsigned` な値を1つ取り、その回数分だけ改行するマニピュレータ
 
 ---
+template: making-basic
+layout: true
+
+## 本体を作る
+
+---
+
+実際に処理を行う本体は次の3つの要素を持つクラスです
+
+1. コンストラクタ
+
+2. ストリームに対する処理
+
+3. シフト演算子オーバーロード
+
+---
+
+クラスの定義は以下のようになる
+
+```C++
+class NewLines {
+ public:
+  NewLines(unsigned n);
+  void exec(std::ostream& os) const;
+ private:
+  unsigned n_;
+};
+std::ostream& operator<<(std::ostream& os,
+                         const NewLines& nl);
+```
+
+---
