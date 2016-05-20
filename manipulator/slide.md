@@ -431,3 +431,43 @@ NewLines newlines(int n) {
 ```
 
 ---
+template: making-basic
+layout: true
+
+## まとめ
+
+---
+
+- 引数を取るマニピュレータは、
+	- 実際の処理を行う本体クラスと、
+	- そのクラスオブジェクトを作るファクトリ関数からなる。
+
+- 本体クラスは、
+	- 実行に必要な情報を保持し、
+	- ストリームへのシフト演算子オーバーロードに引き渡されたときに、
+		- ストリームに対してメンバ関数を適用して処理を行う
+
+- ファクトリ関数は、
+	- ユーザの指定した引数で本体クラスを構築する
+
+---
+
+```C++
+void NewLines::exec(std::ostream& os) const {
+  for (int i = 0; i < n_; ++i) {
+    os << std::endl;
+  }
+}
+std::ostream& operator<<(std::ostream& os,
+                         const NewLines& nl) {
+  nl.exec(os);
+  return os;
+}
+NewLines newlines(int n) {
+  return NewLines(n);
+}
+
+std::cout << newlines(4) << newlines(2);
+```
+
+---
