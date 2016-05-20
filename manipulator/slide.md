@@ -408,9 +408,6 @@ std::ostream& operator<<(std::ostream& os,
 
 ---
 template: making-basic
-layout: true
-
----
 
 ## ファクトリを作る
 
