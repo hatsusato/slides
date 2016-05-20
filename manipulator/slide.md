@@ -295,18 +295,3 @@ std::cout << std::setprecision(16) << M_PI << std::endl;
 標準ライブラリの引数を取るマニピュレータの型は未規定である
 
 ---
-name: preview
-layout: true
-
-# 次回予告
-
-## 「マニピュレータの作り方」
-
-- 引数をとるマニピュレータ
-
-- 現代的なマニピュレータ
-
-<br/><br/>
-.center[.larger[.larger[近日例会講座予定！]]]
-
----
