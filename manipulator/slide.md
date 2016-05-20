@@ -137,16 +137,30 @@ layout: true
 ---
 
 ```C++
-std::cout << true << std::endl << std::boolalpha
-          << true << std::endl;
-// 1
-// true
-std::cout << M_PI << std::endl << std::setprecision(16)
-          << M_PI << std::endl;
-// 3.14159
-// 3.141592653589793
+#include <cmath>
+#include <iomanip>
+#include <iostream>
+
+int main() {
+  std::cout << true << std::endl << std::boolalpha
+            << true << std::endl;
+  // 1
+  // true
+  std::cout << M_PI << std::endl << std::setprecision(16)
+            << M_PI << std::endl;
+  // 3.14159
+  // 3.141592653589793
+}
 ```
 
+???
+`bool` 値はデフォルトで `0/1` で出力されるが、
+`std::boolalpha` で `false/true` で表示するようにできる
+逆に `std::noboolalpha` で元に戻すことができる
+
+浮動小数点数はデフォルトで6桁までしか表示されないが、
+`std::setprecision` を使うと好きな精度で
+出力させることができるようになる
 
 --
 
