@@ -407,3 +407,27 @@ std::ostream& operator<<(std::ostream& os,
 ```
 
 ---
+template: making-basic
+layout: true
+
+---
+
+## ファクトリを作る
+
+本体を生成するファクトリはユーザが直接使う関数です
+
+1. マニピュレータの処理に必要な引数を受け取り、
+
+2. その引数を用いて本体オブジェクトを構築し、
+
+3. そのオブジェクトを戻り値として返します
+
+ファクトリの実装は次のようになる
+
+```C++
+NewLines newlines(int n) {
+  return NewLines(n);
+}
+```
+
+---
