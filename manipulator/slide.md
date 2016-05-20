@@ -173,12 +173,8 @@ layout: true
 # 3. マニピュレータのしくみ
 
 ---
-template: mechanism
-layout: true
 
 `operator<<` のオーバーロードがどうなっているのか調べてみる
-
----
 
 ```C++
 ostream& operator<<(ostream& os, char ch);
@@ -201,6 +197,8 @@ etc...
 
 ---
 
+`operator<<` のオーバーロードがどうなっているのか調べてみる
+
 ```C++
 ostream& operator<<(ostream& os, char ch);
 ostream& operator<<(ostream& os, const char* s);
@@ -218,10 +216,9 @@ etc...
 ん？
 
 ???
-`std::ostream&` を受け取って `std::ostream&` を返す関数ポインタ
----
-template: mechanism
-layout: true
+`sted::ostream&` を受け取って `std::ostream&` を返す関数ポインタ
+を受け取るシフト演算子オーバーオードが
+`ostream` の公開メンバに存在する
 
 ---
 
