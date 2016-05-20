@@ -195,27 +195,10 @@ etc...
 ```
 
 ???
-`operator<<` と `ostream::operator<<` の違いは
+グローバルの `operator<<` と `ostream::operator<<` の違いは
 `ostream`の本当の型 `basic_ostream<CharT, Traits>` の
 `CharT` に依存するかどうか
 
-```C++
-template< class CharT, class Traits>
-basic_ostream<CharT,Traits>&
-operator<<(basic_ostream<CharT,Traits>& os, CharT ch);
-
-template< class CharT, class Traits>
-basic_ostream<CharT,Traits>&
-operator<<(basic_ostream<CharT,Traits>& os, char ch);
-
-template< class Traits >
-basic_ostream<char,Traits>&
-operator<<(basic_ostream<char,Traits>& os, char ch);
-
-template< class Traits >
-basic_ostream<char,Traits>&
-operator<<(basic_ostream<char,Traits>& os, signed char ch);
-```
 ---
 
 ```C++
