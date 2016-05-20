@@ -386,3 +386,24 @@ std::ostream& operator<<(std::ostream& os,
 ストリームに対する処理を実行してストリームを戻す
 
 ---
+
+```C++
+class NewLines {
+ public:
+  NewLines(int n) : n_(n) {}
+  void exec(std::ostream& os) const {
+    for (int i = 0; i < n_; ++i) {
+      os << std::endl;
+    }
+  }
+ private:
+  int n_;
+};
+std::ostream& operator<<(std::ostream& os,
+                         const NewLines& nl) {
+  nl.exec(os);
+  return os;
+}
+```
+
+---
