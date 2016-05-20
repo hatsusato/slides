@@ -347,3 +347,42 @@ std::ostream& operator<<(std::ostream& os,
 ```
 
 ---
+
+コンストラクタ
+
+```C++
+NewLines::NewLines(unsigned n)
+    : n_(n) {}
+```
+
+マニピュレータに渡された引数を保持するだけ
+
+---
+
+ストリームに対する処理
+
+```C++
+void NewLines::exec(std::ostream& os) const {
+  for (unsigned i = 0; i < n_; ++i) {
+    os << std::endl;
+  }
+}
+```
+
+保持しているメンバ変数を使って実現したい処理を実行する
+
+---
+
+シフト演算子オーバーロード
+
+```C++
+std::ostream& operator<<(std::ostream& os,
+                         const NewLines& nl) {
+  nl.exec(os);
+  return os;
+}
+```
+
+ストリームに対する処理を実行してストリームを戻す
+
+---
