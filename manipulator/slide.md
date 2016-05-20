@@ -107,15 +107,34 @@ layout: true
 
 - ストリームを制御する機能を持つオブジェクト
 
-- 使い方: マニピュレータをストリームの入出力に混ぜるだけ
+	- ストリームに対して入出力することで機能が発動する
+
+- マニピュレータの例
+
+	- `std::endl`
+		- 改行してフラッシュ
+
+	- `std::boolalpha`
+		- 真偽値を `0/1` ではなく `false/true` で出力
+
+	- `std::setprecision`
+		- 浮動小数点数の表示精度を指定
 
 ---
 
-## マニピュレータの例
-- `std::endl`
-- `std::boolalpha`
-- `std::setprecision`
-- etc.
+- 基本的なマニピュレータは `<ios>`, `<istream>`, `<ostream>` にある
+
+  - `<iostream>` をインクルードすると全部入る
+
+- 引数を取ってより詳細な制御をするマニピュレータは
+  `<iomanip>` ヘッダの中に入っている
+
+???
+`<iomanip>` に入っているのは引数を取るマニピュレータ
+
+それ以外のヘッダに入っているのは引数を取らないマニピュレータ
+
+---
 
 ```C++
 std::cout << true << std::endl << std::boolalpha
@@ -127,12 +146,8 @@ std::cout << M_PI << std::endl << std::setprecision(16)
 // 3.14159
 // 3.141592653589793
 ```
-???
-endl: 改行してフラッシュ
 
-boolalpha: 真偽値を(0/1)ではなく(false/true)で出力
 
-setprecision: 浮動小数点数の表示精度を指定
 --
 
 .center[.larger[どうしてそんなふうにうまくいくの？]]
