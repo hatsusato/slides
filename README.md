@@ -1,4 +1,4 @@
 # slides
 
-## マニピュレータのしくみ
-[How Manipulators Work](http://hatsusato.github.io/slides/manipulator)
+## How to Manipulate Manipulators
+[How to Manipulate Manipulators](http://hatsusato.github.io/slides/manipulator)
