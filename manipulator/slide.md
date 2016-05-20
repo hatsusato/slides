@@ -312,7 +312,7 @@ layout: true
 
 以降では例として次のようなマニピュレータを作る状況を考える
 
-- `unsigned` な値を1つ取り、その回数分だけ改行するマニピュレータ
+- 整数値を1つ取り、その回数分だけ改行するマニピュレータ
 
 ---
 template: making-basic
@@ -337,10 +337,10 @@ layout: true
 ```C++
 class NewLines {
  public:
-  NewLines(unsigned n);
+  NewLines(int n);
   void exec(std::ostream& os) const;
  private:
-  unsigned n_;
+  int n_;
 };
 std::ostream& operator<<(std::ostream& os,
                          const NewLines& nl);
@@ -351,7 +351,7 @@ std::ostream& operator<<(std::ostream& os,
 コンストラクタ
 
 ```C++
-NewLines::NewLines(unsigned n)
+NewLines::NewLines(int n)
     : n_(n) {}
 ```
 
@@ -363,7 +363,7 @@ NewLines::NewLines(unsigned n)
 
 ```C++
 void NewLines::exec(std::ostream& os) const {
-  for (unsigned i = 0; i < n_; ++i) {
+  for (int i = 0; i < n_; ++i) {
     os << std::endl;
   }
 }
