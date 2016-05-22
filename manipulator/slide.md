@@ -500,3 +500,23 @@ layout: true
 2. ストリームに適用したいラムダ式でマニピュレータ本体を構築して返すファクトリ関数を作る
 
 ---
+
+- マニピュレータ本体
+
+```C++
+class Manipulator {
+ public:
+  using FuncType = std::function<void(std::ostream&)>;
+  Manipulator(const FuncType& f) : f_(f) {}
+  void exec(std::ostream& os) const { f_(os); }
+ private:
+  FuncType f_;
+};
+std::ostream& operator<<(std::ostream& os,
+                         const Manipulator& m) {
+  m.exec(os);
+  return os;
+}
+```
+
+---
