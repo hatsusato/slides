@@ -679,3 +679,15 @@ Manipulator your_manipulator(/* arguments */) {
 ```
 
 ---
+name: bibliography
+layout: false
+
+# 参考文献
+
+- C++マニアック,マニピュレータの作り方,how to make manipulator,C++入門,C++言語講座
+
+	- http://stlalv.la.coocan.jp/Manipulator.html
+
+- cppreference.com
+
+	- http://en.cppreference.com/w/
