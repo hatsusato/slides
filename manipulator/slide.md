@@ -586,3 +586,20 @@ std::cout << paren(42) << paren(3.14) << paren("abc")
 ```
 
 ---
+
+- 可変長引数をカンマで区切って出力するマニピュレータ `separate_print`
+	- `comma_separate` が出力をカンマで区切る仕事を実際に行う
+
+```C++
+template <typename... Args>
+Manipulator separate_print(const Args&... args) {
+  const auto t = std::make_tuple(args...);
+  return Manipulator([t](std::ostream& os) {
+      comma_separate(os, t);
+    });
+}
+std::cout << separate_print(42, 3.14, "abc") << std::endl;
+// 42, 3.14, abc
+```
+
+---
