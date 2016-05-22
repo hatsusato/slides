@@ -36,7 +36,7 @@ Manipulator separate_print(const Args&... args) {
 }
 
 template <typename T>
-Manipulator paren(const T& v) {
+Manipulator paren_print(const T& v) {
   return Manipulator([v](std::ostream& os) {
       os << '(' << v << ')';
     });
@@ -45,7 +45,7 @@ Manipulator paren(const T& v) {
 template <typename... Args>
 Manipulator tuple_print(const Args&... args) {
   return Manipulator([args...](std::ostream& os) {
-      os << paren(separate_print(args...));
+      os << paren_print(separate_print(args...));
     });
 }
 
