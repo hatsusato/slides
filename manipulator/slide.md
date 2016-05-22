@@ -562,9 +562,8 @@ layout: true
 ```C++
 template <typename... Args>
 Manipulator tuple_print(const Args&... args) {
-  const auto m = paren(separate_print(args...));
-  return Manipulator([m](std::ostream& os) {
-      os << m;
+  return Manipulator([args...](std::ostream& os) {
+      os << paren(separate_print(args...));
     });
 }
 std::cout << tuple_print(42, 3.14, "abc") << std::endl;
@@ -577,9 +576,9 @@ std::cout << tuple_print(42, 3.14, "abc") << std::endl;
 
 ```C++
 template <typename T>
-Manipulator paren_print(const T& v) {
-  return Manipulator([v](std::ostream& os) {
-      os << '(' << v << ')';
+Manipulator paren_print(const T& t) {
+  return Manipulator([t](std::ostream& os) {
+      os << '(' << t << ')';
     });
 }
 std::cout << paren(42) << paren(3.14) << paren("abc")
@@ -595,9 +594,8 @@ std::cout << paren(42) << paren(3.14) << paren("abc")
 ```C++
 template <typename... Args>
 Manipulator separate_print(const Args&... args) {
-  const auto t = std::make_tuple(args...);
-  return Manipulator([t](std::ostream& os) {
-      comma_separate(os, t);
+  return Manipulator([args...](std::ostream& os) {
+      comma_separate(os, args...);
     });
 }
 std::cout << separate_print(42, 3.14, "abc") << std::endl;
@@ -610,17 +608,16 @@ std::cout << separate_print(42, 3.14, "abc") << std::endl;
 	- `tail` は `std::tuple` の先頭以外の部分を返す
 
 ```C++
-void comma_separate(std::ostream&, const std::tuple<>&) {}
+void comma_separate(std::ostream&) {}
 template <typename T>
-void comma_separate(std::ostream& os,
-                    const std::tuple<T>& t) {
-  os << std::get<0>(t);
+void comma_separate(std::ostream& os, const T& t) {
+  os << t;
 }
-template <typename U, typename V, typename... Ts>
-void comma_separate(std::ostream& os,
-                    const std::tuple<U, V, Ts...>& t) {
-  os << std::get<0>(t) << ", ";
-  comma_separate(os, tail(t));
+template <typename T, typename U, typename... Rest>
+void comma_separate(std::ostream& os, const T& t,
+                    const U& u, const Rest&... rest) {
+  os << t << ", ";
+  comma_separate(os, u, rest...);
 }
 ```
 
