@@ -546,3 +546,27 @@ Manipulator newlines(int n) {
 ]
 
 ---
+template: making-advanced
+layout: true
+
+## 応用例
+
+---
+
+- 可変長引数をカンマで区切ってかっこで囲んで出力するマニピュレータ `tuple_print`
+	- 引数をかっこで囲んで出力するマニピュレータ `paren_print` と、
+	- 可変長引数をカンマで区切って出力するマニピュレータ `separate_print` を組み合わせる
+
+```C++
+template <typename... Args>
+Manipulator tuple_print(const Args&... args) {
+  const auto m = paren(separate_print(args...));
+  return Manipulator([m](std::ostream& os) {
+      os << m;
+    });
+}
+std::cout << tuple_print(42, 3.14, "abc") << std::endl;
+// (42, 3.14, abc)
+```
+
+---
