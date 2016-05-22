@@ -603,3 +603,23 @@ std::cout << separate_print(42, 3.14, "abc") << std::endl;
 ```
 
 ---
+
+- `comma_separate` の実装
+	- `tail` は `std::tuple` の先頭以外の部分を返す
+
+```C++
+void comma_separate(std::ostream&, const std::tuple<>&) {}
+template <typename T>
+void comma_separate(std::ostream& os,
+                    const std::tuple<T>& t) {
+  os << std::get<0>(t);
+}
+template <typename U, typename V, typename... Ts>
+void comma_separate(std::ostream& os,
+                    const std::tuple<U, V, Ts...>& t) {
+  os << std::get<0>(t) << ", ";
+  comma_separate(os, tail(t));
+}
+```
+
+---
