@@ -24,8 +24,8 @@ void comma_separate(std::ostream& os, const T& v) {
 template <typename T, typename U, typename... Rest>
 void comma_separate(std::ostream& os, const T& t,
                     const U& u, const Rest&... rest) {
-  os << first << ", ";
-  comma_separate(os, second, rest...);
+  os << t << ", ";
+  comma_separate(os, u, rest...);
 }
 
 template <typename... Args>
