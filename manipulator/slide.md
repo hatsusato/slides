@@ -570,3 +570,19 @@ std::cout << tuple_print(42, 3.14, "abc") << std::endl;
 ```
 
 ---
+
+- 引数をかっこで囲んで出力するマニピュレータ `paren_print`
+
+```C++
+template <typename T>
+Manipulator paren_print(const T& v) {
+  return Manipulator([v](std::ostream& os) {
+      os << '(' << v << ')';
+    });
+}
+std::cout << paren(42) << paren(3.14) << paren("abc")
+          << std::endl;
+// (42)(3.14)(abc)
+```
+
+---
