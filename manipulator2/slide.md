@@ -1,10 +1,10 @@
 class: center, middle
 
-# How to Manipulate Manipulators
+# マニピュレータの作り方
 
 ## hatsusato
 
-### 2016/05/23
+### 2016/05/26 @ KMC例会
 
 ---
 name: self-introduction
