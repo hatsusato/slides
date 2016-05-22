@@ -170,7 +170,9 @@ int main() {
 
 --
 
-.center[.large[どうしてそんなふうにうまくいくの？]]
+.center[.large[
+どうしてそんなふうにうまくいくの？
+]]
 
 ---
 name: mechanism
