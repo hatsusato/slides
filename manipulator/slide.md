@@ -656,7 +656,7 @@ layout: true
 template <typename... Args>
 Manipulator tuple_print(const Args&... args) {
   return Manipulator([args...](std::ostream& os) {
-      os << paren(separate_print(args...));
+      os << paren_print(separate_print(args...));
     });
 }
 std::cout << tuple_print(42, 3.14, "abc") << std::endl;
@@ -677,8 +677,8 @@ Manipulator paren_print(const T& t) {
       os << '(' << t << ')';
     });
 }
-std::cout << paren(42) << paren(3.14) << paren("abc")
-          << std::endl;
+std::cout << paren_print(42) << paren_print(3.14)
+          << paren_print("abc") << std::endl;
 // (42)(3.14)(abc)
 ```
 
@@ -687,7 +687,7 @@ std::cout << paren(42) << paren(3.14) << paren("abc")
 
 おかげでシフト演算子オーバーロードが定義されている任意のオブジェクトを受け取れるようになる
 
-つまりマニピュレータでも受け取れるので、前のスライドのように `paren` の引数としてマニピュレータ `separate_print(args...)` を受け取ったりできる
+つまりマニピュレータでも受け取れるので、前のスライドのように `paren_print` の引数としてマニピュレータ `separate_print(args...)` を受け取ったりできる
 
 ---
 
