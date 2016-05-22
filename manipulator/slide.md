@@ -742,7 +742,7 @@ layout: true
 
 ---
 
-- 汎用のマニピュレータを一度作る
+- 汎用のマニピュレータを一度作る ([Gist](https://gist.github.com/hatsusato/412b754b717a863df7f9954e5e3f91dc))
 
 ```C++
 class Manipulator {
@@ -767,7 +767,7 @@ std::ostream& operator<<(std::ostream& os,
 
 ---
 
-- お好みのマニピュレータを作る
+- マニピュレータをカスタマイズする
 
 ```C++
 Manipulator your_manipulator(/* arguments */) {
@@ -776,6 +776,13 @@ Manipulator your_manipulator(/* arguments */) {
     });
 }
 ```
+
+--
+
+<br>
+.center[.large[
+これであなたもマニピュレータマスター！
+]]
 
 ???
 
