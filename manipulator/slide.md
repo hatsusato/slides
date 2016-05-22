@@ -520,3 +520,17 @@ std::ostream& operator<<(std::ostream& os,
 ```
 
 ---
+
+- ファクトリ関数
+
+```C++
+Manipulator newlines(int n) {
+  return Manipulator([n](std::ostream& os) {
+      for (int i = 0; i < n; ++i) {
+        os << std::endl;
+      }
+    });
+}
+```
+
+---
