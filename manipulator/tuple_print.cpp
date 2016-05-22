@@ -16,37 +16,22 @@ std::ostream& operator<<(std::ostream& os, const Manipulator& m) {
   return os;
 }
 
-// require C++14 (std::index_sequence, std::make_index_sequence)
-
-template <typename RetType, typename Tuple, size_t... Ns>
-RetType tail_impl(const Tuple& t,
-                  std::index_sequence<Ns...>) {
-  return std::make_tuple(std::get<Ns + 1u>(t)...);
-}
-template <typename Head, typename... Ts>
-std::tuple<Ts...> tail(const std::tuple<Head, Ts...>& t) {
-  return tail_impl<std::tuple<Ts...>>(
-      t, std::make_index_sequence<sizeof...(Ts)>());
-}
-
-void comma_separate(std::ostream&, const std::tuple<>&) {}
+void comma_separate(std::ostream&) {}
 template <typename T>
-void comma_separate(std::ostream& os,
-                    const std::tuple<T>& t) {
-  os << std::get<0>(t);
+void comma_separate(std::ostream& os, const T& v) {
+  os << v;
 }
-template <typename U, typename V, typename... Ts>
-void comma_separate(std::ostream& os,
-                    const std::tuple<U, V, Ts...>& t) {
-  os << std::get<0>(t) << ", ";
-  comma_separate(os, tail(t));
+template <typename T, typename U, typename... Rest>
+void comma_separate(std::ostream& os, const T& t,
+                    const U& u, const Rest&... rest) {
+  os << first << ", ";
+  comma_separate(os, second, rest...);
 }
 
 template <typename... Args>
 Manipulator separate_print(const Args&... args) {
-  const auto t = std::make_tuple(args...);
-  return Manipulator([t](std::ostream& os) {
-      comma_separate(os, t);
+  return Manipulator([args...](std::ostream& os) {
+      comma_separate(os, args...);
     });
 }
 
@@ -59,12 +44,12 @@ Manipulator paren(const T& v) {
 
 template <typename... Args>
 Manipulator tuple_print(const Args&... args) {
-  const auto m = paren(separate_print(args...));
-  return Manipulator([m](std::ostream& os) {
-      os << m;
+  return Manipulator([args...](std::ostream& os) {
+      os << paren(separate_print(args...));
     });
 }
 
 int main() {
   std::cout << tuple_print(42, 3.14, "abc") << std::endl;
+  std::cout << tuple_print() << std::endl;
 }
