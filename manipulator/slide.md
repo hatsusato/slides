@@ -654,6 +654,7 @@ layout: true
 ## 応用例
 
 ---
+name: tuple_print
 
 - 可変長引数をカンマで区切ってかっこで囲んで出力するマニピュレータ `tuple_print`
 	- 引数をかっこで囲んで出力するマニピュレータ `paren_print` と、
@@ -672,6 +673,8 @@ std::cout << tuple_print(42, 3.14, "abc") << std::endl;
 
 ???
 `newlines` だけだと味気ないのでもうちょっと複雑な便利マニピュレータ `tuple_print` を実装してみる
+
+[まとめ](#summary)にジャンプ
 
 ---
 
@@ -741,6 +744,8 @@ void comma_separate(std::ostream& os, const T& t,
 引数が1つ以下のときにカンマをつけないようにするために
 0引数の場合とそれ以外とで場合分けしている
 
+[tuple_print](#tuple_print)にジャンプ
+
 ---
 template: making-advanced
 layout: true
@@ -748,6 +753,7 @@ layout: true
 ## まとめ
 
 ---
+name: summary
 
 - 汎用のマニピュレータを一度作る ([Gist](https://gist.github.com/hatsusato/412b754b717a863df7f9954e5e3f91dc))
 
