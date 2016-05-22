@@ -623,3 +623,21 @@ void comma_separate(std::ostream& os,
 ```
 
 ---
+
+- `tail` の実装
+	- `std::index_sequence` と `std::make_index_sequence` はC++14から
+
+```C++
+template <typename RetType, typename Tuple, size_t... Ns>
+RetType tail_impl(const Tuple& t,
+                  std::index_sequence<Ns...>) {
+  return std::make_tuple(std::get<Ns + 1u>(t)...);
+}
+template <typename Head, typename... Ts>
+std::tuple<Ts...> tail(const std::tuple<Head, Ts...>& t) {
+  return tail_impl<std::tuple<Ts...>>(
+      t, std::make_index_sequence<sizeof...(Ts)>());
+}
+```
+
+---
