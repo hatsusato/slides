@@ -641,3 +641,41 @@ std::tuple<Ts...> tail(const std::tuple<Head, Ts...>& t) {
 ```
 
 ---
+template: making-advanced
+layout: true
+
+## まとめ
+
+---
+
+- 汎用のマニピュレータを一度作る
+
+```C++
+class Manipulator {
+ public:
+  using FuncType = std::function<void(std::ostream&)>;
+  Manipulator(const FuncType& f) : f_(f) {}
+  void exec(std::ostream& os) const { f_(os); }
+ private:
+  FuncType f_;
+};
+std::ostream& operator<<(std::ostream& os,
+                         const Manipulator& m) {
+  m.exec(os);
+  return os;
+}
+```
+
+---
+
+- お好みのマニピュレータを作る
+
+```C++
+Manipulator your_manipulator(/* arguments */) {
+  return Manipulator([/* capture */](std::ostream& os) {
+      // your implementation
+    });
+}
+```
+
+---
