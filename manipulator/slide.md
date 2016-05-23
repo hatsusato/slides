@@ -358,7 +358,7 @@ layout: true
 ```C++
 class NewLines {
  public:
-  NewLines(int n);
+  explicit NewLines(int n);
   void exec(std::ostream& os) const;
  private:
   int n_;
@@ -441,7 +441,7 @@ std::ostream& operator<<(std::ostream& os,
 ```C++
 class NewLines {
  public:
-  NewLines(int n) : n_(n) {}
+  explicit NewLines(int n) : n_(n) {}
   void exec(std::ostream& os) const {
     for (int i = 0; i < n_; ++i) {
       os << std::endl;
@@ -590,7 +590,7 @@ layout: true
 class Manipulator {
  public:
   using FuncType = std::function<void(std::ostream&)>;
-  Manipulator(const FuncType& f) : f_(f) {}
+  explicit Manipulator(const FuncType& f) : f_(f) {}
   void exec(std::ostream& os) const { f_(os); }
  private:
   FuncType f_;
@@ -761,7 +761,7 @@ name: summary
 class Manipulator {
  public:
   using FuncType = std::function<void(std::ostream&)>;
-  Manipulator(const FuncType& f) : f_(f) {}
+  explicit Manipulator(const FuncType& f) : f_(f) {}
   void exec(std::ostream& os) const { f_(os); }
  private:
   FuncType f_;

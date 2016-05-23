@@ -4,7 +4,7 @@
 class Manipulator {
  public:
   using FuncType = std::function<void(std::ostream&)>;
-  Manipulator(const FuncType& f) : f_(f) {}
+  explicit Manipulator(const FuncType& f) : f_(f) {}
   void exec(std::ostream& os) const { f_(os); }
  private:
   FuncType f_;
