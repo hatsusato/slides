@@ -77,6 +77,32 @@ int main() {
 ```
 
 ---
+template: previous
+
+## 疑問
+
+- `std::endl` の型は `ostream& (*)(ostream&)`
+
+- `std::setprecision` の型は？
+
+	- 引数をとるマニピュレータは関数呼び出しの戻り値がストリームに流れる
+
+	- 戻り値の型が `ostream& (*)(ostream&)` なのか？
+
+	- どういうしくみ？
+
+```C++
+std::cout << std::setprecision(16) << M_PI << std::endl;
+```
+
+???
+引数を取るマニピュレータは引数なしマニピュレータのように簡単には行かない
+
+具体的には、マニピュレータが状態を持たないといけないので、関数ポインタでは表現できない
+
+標準ライブラリの引数を取るマニピュレータの型は未規定である
+
+---
 name: making-basic
 layout: true
 
