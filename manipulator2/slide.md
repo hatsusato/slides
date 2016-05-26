@@ -67,12 +67,12 @@ ostream& ostream::operator<<(ostream& (*func)(ostream&)) {
   return func(*this);
 }
 
-std::ostream& myendl(std::ostream& os) {
+std::ostream& endl(std::ostream& os) {
   return os << '\n' << std::flush;
 }
 
 int main() {
-  std::cout << 42 << myendl;
+  std::cout << 42 << endl;
 }
 ```
 
