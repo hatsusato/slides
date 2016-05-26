@@ -45,6 +45,38 @@ layout: true
 # 1. 前回のマニピュレータ
 
 ---
+template: previous
+layout: true
+
+## 引数のないマニピュレータ
+
+---
+
+- 標準出力ストリームに対するシフト演算子オーバーロードには
+  関数ポインタ型 `ostream& (*)(ostream&)` に対するオーバーロードがある
+
+- 引数のないマニピュレータは
+  `ostream&` を受け取って `ostream&` を返すグローバル関数
+
+- シフト演算子オーバーロードが関数ポインタを呼び出してくれる
+
+---
+
+```C++
+ostream& ostream::operator<<(ostream& (*func)(ostream&)) {
+  return func(*this);
+}
+
+std::ostream& myendl(std::ostream& os) {
+  return os << '\n' << std::flush;
+}
+
+int main() {
+  std::cout << 42 << myendl;
+}
+```
+
+---
 name: making-basic
 layout: true
 
