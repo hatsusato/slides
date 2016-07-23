@@ -13,7 +13,21 @@
       font-family: 'Yanone Kaffeesatz';
       font-weight: normal;
       }
-      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+      h1 { font-size: 50px !important; }
+      h2 { font-size: 40px !important; }
+      h3 { font-size: 30px !important; }
+      .remark-code, .remark-inline-code {
+      font-family: 'Ubuntu Mono';
+      font-size: 100%;
+      }
+      .remark-slide-content { font-size: 150%; }
+      .large { font-size: 150%; }
+      .huge { font-size: 200%; }
+      img[alt="enter"] {
+      float: right;
+      width: 200px;
+      height: 200px;
+      }
     </style>
   </head>
   <body>
@@ -21,7 +35,8 @@
     </script>
     <script>
       var slideshow = remark.create({
-        sourceUrl: 'slide.md'
+        sourceUrl: 'slide.md',
+        highlightLines: true
       });
     </script>
   </body>
