@@ -113,3 +113,99 @@ layout: true
 - `inline`に関しては、**現代のコンパイラは人間より賢い**です。`inline`指定ではなく最適化オプションを用いましょう。
   - 最適化オプションを使えば、**たとえ`inline`指定していなくても**、インライン化すべきとコンパイラが判断すればインライン化されます。
   - テンプレート関数などとは違って、ソースファイルに書かれたコードであっても、リンク時最適化を行えばインラインにできます。
+
+---
+name: item-3
+layout: true
+
+## 3項 可能ならいつでも`const`を使おう
+
+---
+
+次の違いを指摘できますか？
+
+```C++
+char greeting[] = "Hello";
+
+char *p0 = greeting;
+char const *p1 = greeting;
+const char *p2 = greeting;
+char *const p3 = greeting;
+char const *const p4 = greeting;
+const char *const p5 = greeting;
+```
+
+--
+
+- `*`の**左**に`const`があれば、ポインタの参照先の領域が`const`になる。
+  `"Hello"`を書き換えられない。
+- `*`の**右**に`const`があれば、ポインタ変数自身の領域が`const`になる。
+  別のオブジェクトを指すようにしたり、イテレートしたりできない。
+- `const`が`char`の右か左かは関係ない。
+
+---
+
+- 関数の引数やローカル変数など、`const`指定できるものはできるだけしておいた方が安全です。
+  - 値渡しのときは`const`指定してもあまり意味がないです。
+  - 戻り値に`const`指定もできますが、その指定が適切な場合はあまり無いです。
+	組み込み型を厳密に模倣するようなクラスではありえるかもしれません。
+
+ラムダ式を使えば、どこでも`const`初期化できる。
+```C++
+const auto line = [](){
+  std::string buf;
+  std::getline(std::cin, buf);
+  return buf;
+}();
+```
+
+---
+
+- `iterator`の代わりに`const_iterator`を積極的に利用することも重要です。
+  - `cbegin`などの`const_iterator`を返してくれる関数をチェックしておきましょう。
+- メンバ関数に`const`指定をすることは特に重要です。
+  場合によっては`const`版と非`const`版のオーバーロードの提供も考えましょう。
+
+---
+
+- メンバ関数への`const`指定は、あくまでもそのクラスのメンバ変数の*ビットレベル不変性*を保証するものでしかない。
+  - つまり `T *const` として扱うということであって、 `const T*` という意味ではない。
+  - よって、ポインタの指す先ならば`const`メンバ関数でも書き換えられるので注意。
+
+---
+
+- クラスの*論理的な不変性*を保証するための機能として`mutable`というキーワードがありますが、スレッドセーフを勉強してから使うようにしてください。
+  - cf. *Effective Modern C++ 項目16 `const`メンバ関数はスレッドセーフにする*
+- ラムダ式に指定できる`mutable`は、全くの別物なので、スレッドセーフを気にする必要はありません。
+  - 単にラムダ式の関数呼び出しオーバーロードに暗黙についている`const`指定を剥がすだけのものです。
+
+```C++
+int x = 0;
+auto f = [x]() mutable {
+  x = 1;
+  return x;
+};
+```
+
+---
+
+- 以下は`operator[]`オーバーロードなどの実装でしばしば用いられるイディオムです。
+  - アクセサ関数の提供という限られた場面でしか使えないですが、知っておいて悪くないです。
+
+```C++
+class string {
+ public:
+  // ...
+  const char& operator[](std::size_t pos) const {
+    return str_[pos];
+  }
+  char& operator[](std::size_t pos) {
+    return const_cast<char&>(
+*       static_cast<const string&>(*this)[pos]
+    );
+  }
+  // ...
+ private:
+  char *str_;
+};
+```
