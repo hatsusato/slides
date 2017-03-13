@@ -323,3 +323,60 @@ struct Empty {
   Empty& operator=(Empty&&) = default;
 };
 ```
+
+---
+name: item-6
+layout: true
+
+## 6項 コンパイラが自動生成することを望まない関数は、使用を禁止しよう
+
+---
+
+- 特殊メンバ関数に`delete`を指定することで、その関数の生成を明示的に禁止することができる。
+- 以下はコピーできないクラスの例です。
+
+```C++
+template <typename T>
+struct Uncopyable {
+ protected:
+  Uncopyable() = default;
+  ~Uncopyable() = default;
+* Uncopyable(const Uncopyable&) = delete;
+* Uncopyable& operator=(const Uncopyable&) = delete;
+  Uncopyable(Uncopyable&&) = default;
+  Uncopyable& operator=(Uncopyable&&) = default;
+};
+```
+
+---
+
+- 特殊メンバ関数に`delete`を指定することで、その関数の生成を明示的に禁止することができる。
+- 以下はムーブできないクラスの例です。
+
+```C++
+template <typename T>
+struct Unmovable {
+ protected:
+  Unmovable() = default;
+  ~Unmovable() = default;
+  Unmovable(const Unmovable&) = default;
+  Unmovable& operator=(const Unmovable&) = default;
+* Unmovable(Unmovable&&) = delete;
+* Unmovable& operator=(Unmovable&&) = delete;
+};
+```
+
+---
+
+- 一般に、コピーやムーブを禁止したいクラスを作るときには、次のイディオムがしばしば用いられる。
+  - *Rule of zero* を思い出そう。
+
+```C++
+class YourClass : private Uncopyable<YourClass>,
+                  private Unmovable<YourClass> {
+  // YourClass can neither copy nor move
+};
+```
+
+- 先ほどの`Uncopyable`や`Unmovable`の実装において、テンプレート(CRTP)や`protected`が使われていたのは、このイディオムのように`private`継承での使い方を想定しているからです。
+  - *空の基底クラスの最適化*を利用し、*菱型継承問題*に対処している。
