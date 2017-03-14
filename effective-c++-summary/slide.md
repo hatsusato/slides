@@ -380,3 +380,74 @@ class YourClass : private Uncopyable<YourClass>,
 
 - 先ほどの`Uncopyable`や`Unmovable`の実装において、テンプレート(CRTP)や`protected`が使われていたのは、このイディオムのように`private`継承での使い方を想定しているからです。
   - *空の基底クラスの最適化*を利用し、*菱型継承問題*に対処している。
+
+---
+name: item-7
+layout: true
+
+## 7項 ポリモーフィズムのための基底クラスには仮想デストラクタを宣言しよう
+
+---
+
+- 動的ポリモーフィズムを利用するために継承を行うときは、基底クラスのデストラクタを`virtual`にする必要があります。
+
+```C++
+class Base {
+ public:
+  // ...
+* ~Base() = default;
+  virtual void f() = 0;
+};
+
+class VirtualBase {
+ public:
+  // ...
+* virtual ~VirtualBase() = default;
+  virtual void f() = 0;
+};
+```
+
+---
+
+- 動的ポリモーフィズムを利用するために継承を行うときは、基底クラスのデストラクタを`virtual`にする必要があります。
+
+```C++
+class Derived : public Base {
+ public:
+  void f() override {}
+};
+
+class VirtualDerived : public VirtualBase {
+ public:
+  void f() override {}
+};
+```
+
+---
+
+- さもないと、派生クラスのオブジェクトを基底クラスの型として破棄したときに、派生クラスのデストラクタが呼び出されず、メモリリークにつながります。
+  - デストラクタが仮想関数になっていないと、動的なオブジェクトの型を探索できずに、静的な型のデストラクタが呼び出されてしまいます。
+- したがって、STLコンテナなど、仮想デストラクタをもたないクラスから継承してはいけない。
+
+```C++
+#include <memory>
+int main() {
+  std::unique_ptr<Base> b = std::make_unique<Derived>();
+  std::unique_ptr<VirtualBase> vb =
+      std::make_unique<VirtualDerived>();
+  // Derived::~Derived() will not be called
+}
+```
+
+---
+
+- 仮想関数(仮想デストラクタを含む)をもつクラスは、よくある実装では仮想関数テーブルを指す暗黙のポインタ領域をもつので、クラスのサイズは見かけよりもポインタ1つ分多くなります。
+  - 仮想関数の導入は動的ポリモーフィズムが必要な場面に限るようにしましょう。
+- ちなみに、デストラクタは純粋仮想にすることができます。他に純粋仮想にする関数がないときは、デストラクタを利用しましょう。
+
+```C++
+class ABC {
+  virtual ~ABC() = 0;
+};
+ABC::~ABC() = default;
+```
