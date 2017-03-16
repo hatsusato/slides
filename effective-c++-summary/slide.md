@@ -570,8 +570,8 @@ class Y : public X {
   Y& operator=(const Y&) = default;
   Y& operator=(Y&& that) {
     X::operator=(std::move(that));
-	// ...
-	return *this;
+    // ...
+    return *this;
   }
   // ...
 };
