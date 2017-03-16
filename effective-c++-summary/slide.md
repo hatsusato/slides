@@ -638,8 +638,25 @@ int main() {
 
 - ただし、ほとんどの場合はリソース管理クラスは自分で作る必要はありません。
   - 例外安全などを考え始めると、素人には非常に困難です。
-- カスタムデリータを利用すれば、スマートポインタだけで幅広い種類のリソースに対応できます。
 - 既存のリソース管理クラスを組み合わせて作れるのなら、コピーやムーブはデフォルトに任せても問題ないことが多いです。
+
+---
+
+- カスタムデリータを利用すれば、スマートポインタだけで幅広い種類のリソースに対応できます。
+
+```C++
+#include <cstdio>
+#include <memory>
+constexpr auto file_close = [](FILE* fp) {
+  if (fp) {
+    std::fclose(fp);
+  }
+};
+auto make_file(const std::string& name, const char* mode) {
+  return std::unique_ptr<FILE, decltype(file_close)>(
+      std::fopen(name.c_str(), mode), file_close);
+}
+```
 
 ---
 name: item-15
