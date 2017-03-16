@@ -846,3 +846,71 @@ layout: true
 
 - 2項演算子のオーバーロードをするときは、非メンバ関数として提供すると、コードの重複を減らせることがある。
   - その2項演算子が`private`メンバにアクセスせずに実装できるなら、`friend`にする必要はない。
+
+---
+name: item-25
+layout: true
+
+## 25項 例外を投げない`swap`を考えよう
+
+---
+
+- テンプレートでないクラスのより効率のよい`swap`を自分で定義したいときは、メンバ関数の`swap`を`std::swap`のテンプレート特殊化で呼び出すようにするとよい。
+
+```C++
+class X {
+  X* x;
+  void swap(X& that) {
+    using std::swap;
+	swap(this->x, that.x);
+  }
+};
+namespace std {
+template <>
+void swap<X>(X& a, X& b) {
+  a.swap(b);
+}
+}
+```
+
+---
+
+- `std`名前空間のテンプレートを部分特殊化することは認められていないので、テンプレートクラスの場合は、そのクラスが属する名前空間内に非メンバ関数の`swap`を実装するとよい。
+  - *ADL (Argument Dependent Lookup)*により、コンパイラがこの非メンバ関数`swap`を見つけてくれる。
+
+```C++
+namespace my {
+template <typename T>
+class X {
+  T* x;
+  void swap(X& that) {
+    using std::swap;
+	swap(this->x, that.x);
+  }
+};
+template <typename T>
+void swap(X<T>& a, X<T>& b) {
+  a.swap(b);
+}
+}
+```
+
+---
+
+- `swap`を呼び出したいときは、そのローカルスコープ内で`using std::swap`し、`swap`をスコープ解決しないで呼び出すようにするのがよい。
+  - スコープ解決しないことで、適切な`swap`をコンパイラに探索させることができます。
+  - `using std::swap`することで、`swap`の探索範囲に`std::swap`を追加することができます。これにより、他の名前空間に`swap`が見つからない時に`std::swap`が呼ばれるようになります。
+
+```C++
+template <typename T>
+void f(T& a, T& b) {
+  // ...
+  using std::swap;
+  swap(a, b);
+  // ...
+}
+```
+
+---
+
+`swap`は例外安全の要です。`swap`は**必ず**例外を投げないように実装しましょう。
