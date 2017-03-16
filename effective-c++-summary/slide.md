@@ -862,7 +862,7 @@ class X {
   X* x;
   void swap(X& that) {
     using std::swap;
-	swap(this->x, that.x);
+    swap(this->x, that.x);
   }
 };
 namespace std {
@@ -885,7 +885,7 @@ class X {
   T* x;
   void swap(X& that) {
     using std::swap;
-	swap(this->x, that.x);
+    swap(this->x, that.x);
   }
 };
 template <typename T>
