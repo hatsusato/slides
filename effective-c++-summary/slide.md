@@ -34,7 +34,7 @@ name: introduction
 
 - C++は *"expert friendly"*[1] とも呼ばれるように、習得の難しい言語です。
   - 実際、初心者が入門書を読んだだけでは、堅牢で効率のよいコード(正しいコード)をC++で書くことは非常に困難です。
-- こういったC++の学習をとりまく状況の中で、 *Effective C++* は中級以上へとステップアップするために欠かせない本として不動の地位を築いてきた。
+- このようなC++の学習をとりまく状況の中で、 *Effective C++* は中級以上へとステップアップするために欠かせない本として不動の地位を築いてきた。
 
 .footnote[[1] by Bjarne Stroustrup, [The Problem with Programming](https://www.technologyreview.com/s/406923/the-problem-with-programming/)]
 
@@ -54,8 +54,8 @@ name: introduction
 
 ---
 
-- *Effective C++* 全体の内容の分量は発表するには多すぎるので、今回はその一部を発表します。
-- 本来は副読本として *Effective C++* と合わせて読んだり、のちの勉強会などで使ってもらうことを想定しています。
+- *Effective C++* 全体の内容の分量は発表するには多すぎるので、今回はその一部を発表するつもりです。
+- 本来は副読本として *Effective C++* と合わせて読んだり、勉強会などでドキュメントとして活用してもらうことを想定しています。
 
 ---
 layout: true
