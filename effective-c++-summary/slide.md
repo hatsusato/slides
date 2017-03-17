@@ -58,12 +58,29 @@ name: introduction
 - 本来は副読本として *Effective C++* と合わせて読んだり、勉強会などでドキュメントとして活用してもらうことを想定しています。
 
 ---
+name: toc-header
 layout: true
 
-# Table of contents
+# [Table of contents](#table-of-contents)
 
 ---
+template: toc-header
 name: table-of-contents
+layout: false
+
+- [第1章 C++に慣れよう](#chapter1)
+- [第2章 コンストラクタ、デストラクタ、コピー代入演算子](#chapter2)
+- [第3章 リソース管理](#chapter3)
+- [第4章 デザインと宣言](#chapter4)
+- [第5章 実装](#chapter5)
+- [第6章 継承とオブジェクト指向設計](#chapter6)
+- 第7章 テンプレートとジェネリックプログラミング
+- 第8章 `new`と`delete`のカスタマイズ
+- 第9章 いろいろな事
+
+---
+template: toc-header
+name: chapter1
 
 - **第1章 C++に慣れよう**
 - 第2章 コンストラクタ、デストラクタ、コピー代入演算子
@@ -250,7 +267,8 @@ Singleton& static_object() {
 ```
 
 ---
-template: table-of-contents
+template: toc-header
+name: chapter2
 
 - 第1章 C++に慣れよう
 - **第2章 コンストラクタ、デストラクタ、コピー代入演算子**
@@ -585,7 +603,8 @@ class Y : public X {
   - 逆に、例外を投げうるコードを正しく書くのは非常に難しいです。
 
 ---
-template: table-of-contents
+template: toc-header
+name: chapter3
 
 - 第1章 C++に慣れよう
 - 第2章 コンストラクタ、デストラクタ、コピー代入演算子
@@ -732,7 +751,8 @@ f(std::make_unique<T>(), g());
 ```
 
 ---
-template: table-of-contents
+template: toc-header
+name: chapter4
 
 - 第1章 C++に慣れよう
 - 第2章 コンストラクタ、デストラクタ、コピー代入演算子
@@ -933,7 +953,8 @@ void f(T& a, T& b) {
 `swap`は例外安全の要です。`swap`は**必ず**例外を投げないように実装しましょう。
 
 ---
-template: table-of-contents
+template: toc-header
+name: chapter5
 
 - 第1章 C++に慣れよう
 - 第2章 コンストラクタ、デストラクタ、コピー代入演算子
@@ -1081,7 +1102,8 @@ name: item-31
   - 代償として一定の実行時コストが必要になります。
 
 ---
-template: table-of-contents
+template: toc-header
+name: chapter6
 
 - 第1章 C++に慣れよう
 - 第2章 コンストラクタ、デストラクタ、コピー代入演算子
