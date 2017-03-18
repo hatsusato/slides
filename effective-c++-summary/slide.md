@@ -494,7 +494,7 @@ layout: true
 ---
 name: item-7
 
-- 動的ポリモーフィズムを利用するために継承を行うときは、基底クラスのデストラクタを`virtual`にする必要があります。
+- 動的ポリモーフィズムを利用したいときは、基底クラスのデストラクタを`virtual`にしなければなりません。
 
 ```C++
 class Base {
@@ -504,17 +504,20 @@ class Base {
   virtual void f() = 0;
 };
 
-class VirtualBase {
+class VBase {
  public:
   // ...
-* virtual ~VirtualBase() = default;
+* virtual ~VBase() = default;
   virtual void f() = 0;
 };
 ```
 
+???
+デストラクタを明示的に宣言しているので、当然他の特殊メンバ関数も定義する必要があります。
+
 ---
 
-- 動的ポリモーフィズムを利用するために継承を行うときは、基底クラスのデストラクタを`virtual`にする必要があります。
+- 動的ポリモーフィズムを利用したいときは、基底クラスのデストラクタを`virtual`にしなければなりません。
 
 ```C++
 class Derived : public Base {
@@ -522,7 +525,7 @@ class Derived : public Base {
   void f() override {}
 };
 
-class VirtualDerived : public VirtualBase {
+class VDerived : public VBase {
  public:
   void f() override {}
 };
@@ -530,25 +533,31 @@ class VirtualDerived : public VirtualBase {
 
 ---
 
-- さもないと、派生クラスのオブジェクトを基底クラスの型として破棄したときに、派生クラスのデストラクタが呼び出されず、メモリリークにつながります。
-  - デストラクタが仮想関数になっていないと、動的なオブジェクトの型を探索できずに、静的な型のデストラクタが呼び出されてしまいます。
-- したがって、STLコンテナなど、仮想デストラクタをもたないクラスから継承してはいけない。
+- さもないと、派生クラスのオブジェクトを基底クラスの型として破棄したときに、派生クラスのデストラクタが呼び出されず、**リソースリーク**につながります。
+  - デストラクタが仮想関数でないと、動的なオブジェクトの型を探索できないので、静的な型のデストラクタが呼び出されてしまう。
+- したがって、STLコンテナなどの仮想デストラクタをもたないクラスから、動的ポリモーフィズムを目的とする`public`継承をしてはいけない。
 
 ```C++
 #include <memory>
 int main() {
   std::unique_ptr<Base> b = std::make_unique<Derived>();
-  std::unique_ptr<VirtualBase> vb =
-      std::make_unique<VirtualDerived>();
+  std::unique_ptr<VBase> vb = std::make_unique<VDerived>();
   // Derived::~Derived() will not be called
 }
 ```
 
+???
+動的ポリモーフィズムを目的とする`public`継承でなければ、仮想デストラクタをもたないクラスの継承が有効な場面はあります。
+
 ---
 
 - 仮想関数(仮想デストラクタを含む)をもつクラスは、よくある実装では仮想関数テーブルを指す暗黙のポインタ領域をもつので、クラスのサイズは見かけよりもポインタ1つ分多くなります。
-  - 仮想関数の導入は動的ポリモーフィズムが必要な場面に限るようにしましょう。
-- ちなみに、デストラクタは純粋仮想にすることができます。他に純粋仮想にする関数がないときは、デストラクタを利用しましょう。
+- 仮想関数の導入は動的ポリモーフィズムが必要な場面に限るようにしましょう。
+
+---
+
+- ちなみに、デストラクタは純粋仮想にすることができます。
+  - 他に純粋仮想にする関数がないときは、デストラクタを利用するのもよいです。
 
 ```C++
 class ABC {
