@@ -920,36 +920,55 @@ name: item-18
 - 例
 
 ```C++
-Date::Data(int month, int day, int year);
+Date::Date(int month, int day, int year);
 
-Data d(30, 3, 1995);
+Date d(30, 3, 1995);
 ```
 
-- `int`という汎用的な型でなんでも表すのではなく、型を細かく分けることでケアレスミスを防ぐことができます。
+- `int`という汎用的な型でなんでも表すのではなく、**型を細かく分ける**ことでケアレスミスを防ぐことができます。
 
 ```C++
-Data d(Day(30), Month(3), Year(1995));  // compile error
+Date d(Day(30), Month(3), Year(1995));  // compile error
 ```
 
 ---
 
 - `Month`を列挙型にしたり、名前をつけた定数インスタンスを作るともっとよいかもしれません。
-  - [4項](#item-4)に従うと、`static const`メンバ変数ではなく`static`メンバ関数にするほうがよいです。
-  - あるいは、C++11以降なら、`Month`をリテラル型にして`static constexpr`メンバ変数にするとよいです。
+  - [4項](#item-4)に従うなら、`static const`メンバ変数よりも`static`メンバ関数のほうがよいかもしれません。
 
 ```C++
-Data d(Day(30), Month::March(), Year(1995));
+class Month {
+ public:
+  static Month March() { return Month(3); }
+  // ...
+ private:
+  explicit Month(int m);
+  // ...
+};
+
+Date d(Day(30), Month::March(), Year(1995));
 ```
 
 ---
 
 - STLなどでは、同じ機能のメンバ関数は同じ名前、同じシグネチャをもつように設計されています。
   - 同じ名前にしておくと、テンプレートを用いて静的ダックタイピングを行うこともできます。
-- このように一貫性をもった設計は、使いやすく、保守性の高いシステムをもたらします。
+- このように**一貫性をもった設計**は、使いやすく、保守性の高いシステムをもたらします。
+
+```C++
+template <class C>
+auto begin(C& c) -> decltype(auto) {
+  return c.begin();
+}
+template <class T, std::size_t N>
+T* begin(T(&a)[N]) {
+  return a;
+}
+```
 
 ---
 
-- クラスの機能はそれ単体で完結しているべきです。
+- クラスの機能はそれ**単体で完結**しているべきです。
   - ユーザが何かを覚えておかなければならなかったりするような設計は誤用につながります。
   - リソースの管理などを人に任せるのではなく、クラスが管理するスマートポインタはその最たる例です。
 
