@@ -1036,9 +1036,15 @@ layout: true
 name: item-22
 
 - `public`なデータメンバはクラスのインターフェースとして固定化されてしまいます。
-  - 取りうる値の不変量をコントロールすることが困難になります。
 - メンバ関数を通じてアクセスするようにしておけば、実装の詳細が変更されてもユーザコードに影響を与えずにすみます。
-- `protected`にしても問題は解決しません。`private`にしましょう。
+- `protected`にしても問題は解決しません。**`private`にしましょう**。
+
+```C++
+template <typename T, typename U>
+T& get0(std::pair<T, U>& p) {
+  return p.first;
+}
+```
 
 ---
 layout: true
