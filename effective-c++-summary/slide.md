@@ -422,7 +422,7 @@ layout: true
 ---
 name: item-6
 
-- 特殊メンバ関数に`delete`を指定することで、その関数の生成を明示的に禁止することができる。
+- 特殊メンバ関数に`delete`を指定すると、その関数の生成を明示的に禁止できる。
 - 以下はコピーできないクラスの例です。
 
 ```C++
@@ -440,7 +440,7 @@ struct Uncopyable {
 
 ---
 
-- 特殊メンバ関数に`delete`を指定することで、その関数の生成を明示的に禁止することができる。
+- 特殊メンバ関数に`delete`を指定すると、その関数の生成を明示的に禁止できる。
 - 以下はムーブできないクラスの例です。
 
 ```C++
@@ -471,6 +471,20 @@ class YourClass : private Uncopyable<YourClass>,
 - 先ほどの`Uncopyable`や`Unmovable`の実装において、テンプレート(CRTP)や`protected`が使われていたのは、このイディオムのように`private`継承での使い方を想定しているからです。
   - *空の基底クラスの最適化*を利用し、*菱型継承問題*に対処している。
   - cf. *39項 `private`継承は賢く使おう*
+
+---
+
+- 一般のメンバ関数でも`delete`を指定することで、その関数を呼び出せないようにすることができる。
+
+```C++
+#include <iostream>
+template <typename T>
+void print(const T& x) {
+  std::cout << x << std::endl;
+}
+template <typename T>
+void print(T* x) = delete;
+```
 
 ---
 layout: true
