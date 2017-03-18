@@ -470,7 +470,7 @@ class YourClass : private Uncopyable<YourClass>,
 
 - 先ほどの`Uncopyable`や`Unmovable`の実装において、テンプレート(CRTP)や`protected`が使われていたのは、このイディオムのように`private`継承での使い方を想定しているからです。
   - *空の基底クラスの最適化*を利用し、*菱型継承問題*に対処している。
-  - cf. *39項 `private`継承は賢く使おう*
+  - cf. [*39項 `private`継承は賢く使おう*](#item-39)
 
 ---
 
