@@ -593,6 +593,7 @@ class X {
   X(const X&) {}
   X(X&&) noexcept(false) {}
 };
+
 std::vector<X> v;
 for (int i = 0; i < 100; ++i) {
   v.emplace_back();
