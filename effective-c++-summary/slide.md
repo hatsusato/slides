@@ -1007,7 +1007,25 @@ name: item-21
 
 - **ローカル変数への参照を返してはいけません。**
   - ラムダキャプチャを使うと気づかないうちにやってしまいがちなので、気をつけるようにしてください。
+
+```C++
+auto f() -> decltype(auto) {
+  auto g = [](){ return 0; };
+  return [&g](){ return g(); };
+}
+```
+
+---
+
 - 多くの場合、*RVO (Return Value Optimization)*が効くので、戻り値を値渡しで返しても、一時オブジェクトが発生しないことが多いです。
+
+```C++
+std::string input() {
+  std::string buf;
+  std::cin >> buf;
+  return buf;
+}
+```
 
 ---
 layout: true
