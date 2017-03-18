@@ -103,22 +103,80 @@ layout: true
 ---
 name: item-1
 
-- C++はマルチパラダイムな言語だと言われる。
-- 正しく効率的なコードを書くために従うべきルールは、コードがどのパラダイムを利用しているかに応じて変わってくる。
-  - 例えば、値渡しにするか参照渡しにするかの選択など。
+- C++はマルチパラダイム言語。
+- 4つの言語からなると考えるとわかりやすい。
+  - それぞれで書き方(規約)が異なるので分けて考えるとよい。
 
 ---
 
-C++は以下の4つの言語の連合とみなすべきです。
-
 - C
-  - C++の基本的は部分はCから来ている。
+
+```C++
+int min(int x, int y) {
+  if (x < y) {
+    return x;
+  } else {
+    return y;
+  }
+}
+```
+
+---
+
 - オブジェクト指向C++
-  - Cにはないクラスを扱うときにはオブジェクト指向のルールに従う。
+
+```C++
+class Base {
+  virtual ~Base() = default;
+  virtual void f() = 0;
+};
+class Derived : public Base {
+  void f() override {}
+};
+```
+
+---
+
 - テンプレートC++
-  - ジェネリックプログラミングをサポートする。他のパラダイムとは交わらない部分が多い。
+
+```C++
+template <class T, class... Args>
+typename std::enable_if_t<
+  std::is_constructible_v<T, Args...>,
+  std::unique_ptr<T> >
+make_unique(Args&&... args) {
+  return std::unique_ptr<T>(
+      new T(std::forward<Args>(args)...));
+}
+template <class T, class... Args>
+typename std::enable_if_t<
+  !std::is_constructible_v<T, Args...>,
+  std::unique_ptr<T> >
+make_unique(Args&&... args) {
+  return std::unique_ptr<T>(
+      new T{std::forward<Args>(args)...});
+}
+```
+
+---
+
 - STL
-  - STLをうまく扱うには独自の規約を理解する必要がある。関数型っぽいところがある。
+
+```C++
+int main() {
+  std::vector<int> v;
+  const auto rand = [](){
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+    static std::uniform_int_distribution<> dist(0, 9);
+    return dist(gen);
+  };
+  std::generate_n(std::back_inserter(v), 10, rand);
+  std::copy(begin(v), end(v),
+            std::ostream_iterator<int>(std::cout, " "));
+  std::cout << std::endl;
+}
+```
 
 ---
 layout: true
