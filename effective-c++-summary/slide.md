@@ -1559,8 +1559,22 @@ layout: true
 ---
 name: item-37
 
-- 仮想関数は動的結合なのに対して、デフォルト引数値は静的結合なので、仮想関数のデフォルト引数値を再定義すると食い違いが発生しうるので、絶対にやめましょう。
-  - NVIイディオムを用いれば、そもそもデフォルト引数を非仮想関数に指定できるようになるので、ここでの問題を解消できます。
+- 仮想関数は動的結合だが、デフォルト引数は静的結合なので、**仮想関数にデフォルト引数を指定しない**ようにしましょう。
+  - NVIイディオムを用いていれば、問題を解消できます。
+
+```C++
+class X {
+ public:
+  virtual ~X() = default;
+  int f(int x = 0) { return f_impl(x); }
+ private:
+  virtual int f_impl(int x) = 0;
+};
+
+class Y : public X {
+  int f_impl(int x) override { return x; }
+};
+```
 
 ---
 layout: true
