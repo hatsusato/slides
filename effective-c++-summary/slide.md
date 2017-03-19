@@ -1411,15 +1411,30 @@ name: item-33
 - 派生クラスのメンバ関数のブロック中では、基底クラスの名前は派生クラスの名前で隠蔽されてしまうので気をつけましょう。
   - 特にメンバ関数において、シグネチャの異なる関数であっても隠蔽は発生します。
 
+```C++
+class Base {
+ public:
+  virtual void f() {}
+  void f(int) {}
+};
+class Derived : public Base {
+ public:
+  void f() override {
+    f(0);  // compile error
+  }
+};
+```
+
 ---
 
 - `using`宣言を用いると、基底クラスのメンバ関数を取り込んで、隠蔽しないようにすることもできます。
+- 一部のメンバ関数のみを取り込みたいときは、派生クラスにおいて転送関数を定義すればよい。
 
 ```C++
 class Base {
  public:
-  virtual void f();
-  void f(int);
+  virtual void f() {}
+  void f(int) {}
 };
 class Derived : public Base {
  public:
@@ -1429,8 +1444,6 @@ class Derived : public Base {
   }
 };
 ```
-
-- 一部のメンバ関数のみを取り込みたいときは、派生クラスにおいて転送関数を定義すればよい。
 
 ---
 layout: true
