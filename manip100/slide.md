@@ -182,3 +182,74 @@ layout: true
 ---
 
 ね、簡単でしょう？
+
+---
+class: none
+layout: true
+
+# マニピュレータギャラリー
+
+---
+
+.size50[
+ここで僕の考えたマニピュレータを紹介します
+]
+
+---
+
+.size40[
+`paren`: 引数を丸かっこで囲んで出力する
+]
+
+```C++
+template <typename T>
+Manip paren(T&& x) {
+  return [x = std::forward<T>(x)]
+      (std::ostream& os) { os << '(' << x << ')'; };
+}
+```
+
+---
+
+.size40[
+`join`: 第1引数で区切りながら第2引数を順に出力する
+]
+
+```C++
+template <typename S, typename T, typename U,
+          typename... Args>
+Manip join(S s, T&& t, U&& u, Args&&... args) {
+  return [s = s, t = std::forward<T>(t),
+          r = join(s, std::forward<U>(u),
+                   std::forward<Args>(args)...)]
+      (std::ostream& os){ os << t << s << r; };
+}
+```
+
+---
+
+.size40[
+`tuple`: 丸かっこで囲まれた中に、引数全体をカンマ区切りで出力する
+]
+
+```C++
+template <typename... Args>
+Manip tuple(Args&&... args) {
+  return [t = join(", ", std::forward<Args>(args)...)]
+      (std::ostream& os){ os << paren(t); };
+}
+```
+
+---
+
+.size50[
+みなさんもよいアイデアを思いついたら教えてください。
+]
+
+---
+class: center, middle
+layout: false
+
+ご清聴ありがとう
+
+ございました
