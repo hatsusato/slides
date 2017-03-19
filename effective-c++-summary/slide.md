@@ -80,6 +80,7 @@ layout: false
 - 第7章 テンプレートとジェネリックプログラミング
 - 第8章 `new`と`delete`のカスタマイズ
 - 第9章 いろいろな事
+- [まとめ](#conclusion)
 
 ---
 template: toc-header
@@ -1647,3 +1648,13 @@ template: toc-header
 - 第7章 テンプレートとジェネリックプログラミング
 - 第8章 `new`と`delete`のカスタマイズ
 - 第9章 いろいろな事
+
+---
+name: conclusion
+layout: false
+
+## Conclusion
+
+この講座で言いたかったこと
+
+- .huge[*Effective C++*は古いが役に立つ]
