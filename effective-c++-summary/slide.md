@@ -1537,6 +1537,19 @@ layout: true
 name: item-36
 
 - 非仮想関数を派生クラスで再定義すると、基底クラスのインタフェースをこわすことになるので、絶対にやめましょう。
+  - それは継承でもなんでもありません。
+
+```C++
+class X {
+ public:
+  int f() { return 0; }
+};
+
+class Y : public X {
+ public:
+  int f() { return 1; }
+};
+```
 
 ---
 layout: true
