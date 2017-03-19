@@ -1495,7 +1495,38 @@ name: item-35
 
 - `public`な非仮想関数から`private`な仮想関数を呼び出す手法のことを*NVI (Non-Virtual Interface)イディオム*と言う。
 - 仮想関数の呼び出しをNVIイディオムにしたがって呼び出すようにすると、疎結合になって保守しやすくなります。
+
+```C++
+class X {
+ public:
+  virtual ~X() = default;
+  void f() {
+    f_impl();
+  }
+ private:
+  virtual void f_impl() = 0;
+};
+
+class Y : public X {
+  void f_impl() override {}
+};
+```
+
+---
+
 - 関数オブジェクトの利用や、ストラテジパターンは仮想関数の代替になり得ます。
+
+```C++
+class X {
+ public:
+  X(std::function<void()> f) : func_(f) {}
+  void f() {
+    func_();
+  }
+ private:
+  std::function<void()> func_;
+};
+```
 
 ---
 layout: true
