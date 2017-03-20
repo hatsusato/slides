@@ -18,12 +18,12 @@ layout: true
 ```C++
 #include <iostream>
 int main() {
-  std::cout << "Hello, World!" << std::endl;
+  std::cout << "Hello, everyone!" << std::endl;
 }
 ```
 
 ```
-*> Hello, World!
+*> Hello, everyone!
 ```
 
 ---
@@ -31,8 +31,6 @@ class: center, middle
 layout: true
 
 ---
-
-こんにちは
 
 C++のプロ
 
@@ -198,7 +196,8 @@ layout: true
 ---
 
 .size40[
-`paren`: 引数を丸かっこで囲んで出力する
+`paren`
+- 引数を丸かっこで囲んで出力する
 ]
 
 ```C++
@@ -212,7 +211,8 @@ Manip paren(T&& x) {
 ---
 
 .size40[
-`join`: 第1引数で区切りながら第2引数を順に出力する
+`join`
+- 第1引数で区切って第2引数を順に出力する
 ]
 
 ```C++
@@ -229,7 +229,8 @@ Manip join(S s, T&& t, U&& u, Args&&... args) {
 ---
 
 .size40[
-`tuple`: 丸かっこで囲まれた中に、引数全体をカンマ区切りで出力する
+`tuple`
+- 丸かっこで囲まれた中に、引数全体をカンマ区切りで出力する
 ]
 
 ```C++
