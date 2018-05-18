@@ -1,98 +1,270 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
   <head>
+    <meta charset="utf-8">
+    <link href="style.css" rel="stylesheet" type="text/css">
     <title>マニピュレータを100倍活用する</title>
-    <meta http-equiv="Content-Type" content="text/html"; charset="utf-8">
-    <style type="text/css">
-      @import url(https://fonts.googleapis.com/earlyaccess/notosansjp.css);
-      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono);
-      @import url(https://fonts.googleapis.com/css?family=EB+Garamond);
-
-      body {
-      font-family: 'EB Gramond', 'Noto Sans';
-      font-weight: 900;
-      }
-      h1, h2, h3 {
-      font-family: 'EB Gramond', 'Noto Serif';
-      font-weight: 900;
-      line-height: 1.5em;
-      }
-      pre {
-      margin: 40px 0px 40px 0px;
-      }
-      ul {
-      -webkit-margin-before: 0em;
-      -webkit-margin-after: 0em;
-      }
-      p {
-      -webkit-margin-before: 0.5em;
-      -webkit-margin-after: 0.5em;
-      }
-      .remark-slide-content {
-      font-size: 100px;
-      line-height: 1em;
-      padding: 40px;
-      }
-      .remark-slide-number {
-      font-size: 30px;
-      bottom: 0px;
-      }
-      .remark-code, .remark-inline-code {
-      font-family: 'Ubuntu Mono';
-      }
-      .remark-code {
-      font-size: 30px;
-      line-height: 1.2em;
-      }
-      .footnote {
-      position: absolute;
-      bottom: 2em;
-      left: 40px;
-      font-size: 25px;
-      }
-      .size30 { font-size: 30px; line-height: 1em; }
-      .size40 { font-size: 40px; line-height: 1em; }
-      .size50 { font-size: 50px; line-height: 1em; }
-      .size60 { font-size: 60px; line-height: 1em; }
-      .size70 { font-size: 70px; line-height: 1em; }
-      .size80 { font-size: 80px; line-height: 1em; }
-      .size90 { font-size: 90px; line-height: 1em; }
-      .size100 { font-size: 100px; line-height: 1em; }
-      img[alt="enter"] {
-      float: right;
-      width: 200px;
-      height: 200px;
-      }
-    </style>
   </head>
   <body>
-    <script src="https://gnab.github.io/remark/downloads/remark-latest.min.js" type="text/javascript"></script>
-    <script type="text/javascript">
-      var slideshow = remark.create({
-        sourceUrl: 'slide.md',
-        highlightLines: true,
-        highlightStyle: 'foundation',
-      });
-      const color_sum = 512
-      slideshow.on('beforeShowSlide', (slide) => {
-        const index = slide.getSlideIndex()
-        const container = document.querySelectorAll('.remark-slide-container')[index]
-        const content = container.querySelector('.remark-slide-content')
-        const rgb_ratio = [Math.random(), Math.random(), Math.random()]
-        const max_color = Math.max(...rgb_ratio)
-        const min_color = Math.min(...rgb_ratio)
-        const max_index = rgb_ratio.indexOf(max_color)
-        const min_index = rgb_ratio.indexOf(min_color)
-        rgb_ratio[max_index] = rgb_ratio[max_index] * 2.0
-        rgb_ratio[min_index] = rgb_ratio[min_index] * 0.5
-        const sum_ratio = rgb_ratio[0] + rgb_ratio[1] + rgb_ratio[2]
-        const red = parseInt(Math.min(255, color_sum * rgb_ratio[0] / sum_ratio))
-        const green = parseInt(Math.min(255, color_sum * rgb_ratio[1] / sum_ratio))
-        const blue = parseInt(Math.min(255, color_sum * rgb_ratio[2] / sum_ratio))
-        if (content.style.backgroundColor === '') {
-          container.querySelector('.remark-slide-content').style.backgroundColor = `rgb(${red}, ${green}, ${blue})`
-        }
-      })
-    </script>
+    <textarea id="source">
+class: center, middle
+layout: true
+
+---
+
+# .size100[マニピュレータを100倍活用する]
+
+## hatsusato
+
+### KMC春合宿2017
+
+---
+class: middle
+layout: true
+
+---
+
+```C++
+#include <iostream>
+int main() {
+  std::cout << "Hello, everyone!" << std::endl;
+}
+```
+
+```
+*> Hello, everyone!
+```
+
+---
+class: center, middle
+layout: true
+
+---
+
+C++のプロ
+
+hatsusatoです
+
+---
+
+今回はC++の
+
+マニピュレータを
+
+---
+
+めちゃくちゃ
+
+活用する方法を
+
+伝授します
+
+---
+
+突然ですが
+
+C++を書いたこと
+
+ある人　ノ
+
+---
+
+マニピュレータを
+
+使ったこと
+
+ある人　ノ
+
+---
+
+こういうやつ
+
+つ `std::endl`
+
+---
+
+マニピュレータを
+
+作ったこと
+
+ある人　ノ
+
+---
+
+あまりいないと
+
+思います
+
+---
+
+そこで
+
+---
+
+マニピュレータの
+
+作り方を
+
+マスターして
+
+しまいましょう
+
+---
+class: none
+layout: true
+
+---
+
+# Step 1
+
+.size50[
+`std::function<void(std::ostream&)>` に別名 (`Manip`) をつけましょう。
+]
+.footnote[
+`Manip` は `std::ostream&` を受け取って、値を返さない関数オブジェクトの型です。
+]
+
+```C++
+#include <functional>
+#include <iostream>
+using Manip = std::function<void(std::ostream&)>;
+```
+
+---
+
+# Step 2
+
+.size50[
+`Manip` に対して `operator<<` を<br>オーバーロードしましょう。
+]
+
+```C++
+std::ostream& operator<<(std::ostream& os, Manip m) {
+  m(os);
+  return os;
+}
+```
+
+---
+
+# Step 3
+
+.size50[
+`Manip` を返す関数を書きましょう。
+]
+.footnote[
+`Manip` は `std::ostream&` を受け取って、値を返さない関数オブジェクトの型です。
+]
+
+```C++
+Manip coord(double x, double y) {
+  return [x, y](std::ostream& os) {
+    os << '(' << x << ", " << y << ')';
+  };
+}
+```
+
+---
+
+# Step 4
+
+.size50[
+できあがり！
+]
+
+```C++
+int main() {
+  std::cout << coord(1.2, 3.4) << std::endl;
+}
+```
+
+```
+*> (1.2, 3.4)
+```
+
+---
+class: center, middle
+layout: true
+
+---
+
+ね、簡単でしょう？
+
+---
+class: none
+layout: true
+
+# マニピュレータギャラリー
+
+---
+
+.size50[
+ここで僕の考えたマニピュレータを紹介します
+]
+
+---
+
+.size40[
+`paren`
+- 引数を丸かっこで囲んで出力する
+]
+
+```C++
+template <typename T>
+Manip paren(T&& x) {
+  return [x = std::forward<T>(x)]
+      (std::ostream& os) { os << '(' << x << ')'; };
+}
+```
+
+---
+
+.size40[
+`join`
+- 第1引数で区切って第2引数を順に出力する
+]
+
+```C++
+template <typename S, typename T, typename U,
+          typename... Args>
+Manip join(S s, T&& t, U&& u, Args&&... args) {
+  return [s = s, t = std::forward<T>(t),
+          r = join(s, std::forward<U>(u),
+                   std::forward<Args>(args)...)]
+      (std::ostream& os){ os << t << s << r; };
+}
+```
+
+---
+
+.size40[
+`tuple`
+- 丸かっこで囲まれた中に、引数全体をカンマ区切りで出力する
+]
+
+```C++
+template <typename... Args>
+Manip tuple(Args&&... args) {
+  return [t = join(", ", std::forward<Args>(args)...)]
+      (std::ostream& os){ os << paren(t); };
+}
+```
+
+---
+
+.size50[
+みなさんもよいマニピュレータを思いついたら教えてください。
+]
+
+---
+class: center, middle
+layout: false
+
+ご清聴ありがとう
+
+ございました
+    </textarea>
+    <script src="remark-latest.min.js" type="text/javascript"></script>
+    <script src="slide.js" type="text/javascript"></script>
   </body>
 </html>
