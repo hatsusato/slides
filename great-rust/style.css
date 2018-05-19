@@ -1,39 +1,7 @@
 
-.remark-slide .remark-slide-content {
-    padding: 1em 2em;
-}
 .remark-slide .remark-slide-number {
-    padding: .5em;
     right: 0em;
     bottom: 0em;
-}
-.remark-slide-content.title > h1 {
-    padding: .25em .5em;
-    margin: 1em -1em;
-}
-.remark-slide-content.title > h2 {
-    margin: 1em 0em;
-}
-.remark-slide-content.title > h3 {
-    margin: 1em 0em;
-}
-.remark-slide-content:not(.title) > h1 {
-    padding: .13em 0em 0em .4em;
-    margin: -.5em -1em .2em -1em;
-}
-.remark-slide-content:not(.title) > h2 {
-    padding: .5em 0em 0em .5em;
-    margin: -.625em -1.25em .25em -1.25em;
-}
-.remark-slide-content:not(.title) > h3 {
-    padding: 1.6em .5em 0em .8em;
-    margin: -1em -2em .2em -2em;
-}
-.remark-slide-content ol, ul {
-    padding-left: 1em;
-}
-.remark-slide-content p, ol, ul {
-    margin: .5em 0em;
 }
 .remark-slide-content em, strong {
     color: var(--color-accent);
