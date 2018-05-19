@@ -1,26 +1,3 @@
-:root {
-    --color-back: hsl(0,0%,95%);
-    --color-back-sub: hsl(0,0%,90%);
-    --color-image-back: hsl(240,50%,80%);
-    --color-main: hsl(240,50%,60%);
-    --color-text: hsl(240,50%,40%);
-    --color-base: hsl(240,50%,20%);
-    --color-image-back-sub: hsl(0,50%,80%);
-    --color-accent: hsl(0,50%,60%);
-    --color-text-sub: hsl(0,50%,40%);
-}
-
-.color-back { background: var(--color-back); }
-.color-back-sub { background: var(--color-back-sub); }
-
-.color-image-back { background: var(--color-image-back); }
-.color-main { background: var(--color-main); }
-.color-text { background: var(--color-text); }
-.color-basic-text { background: var(--color-base); }
-
-.color-image-back-sub { background: var(--color-image-back-sub); }
-.color-accent { background: var(--color-accent); }
-.color-text-sub { background: var(--color-text-sub); }
 
 .remark-slide {
     font-family: 'Noto Sans';
@@ -34,15 +11,12 @@
 .remark-slide .remark-slide-content {
     font-size: 32px;
     padding: 1em 2em;
-    background: var(--color-back);
-    color: var(--color-base);
 }
 .remark-slide .remark-code {
     font-size: .8em;
 }
 .remark-slide .remark-inline-code {
     font-size: 1em;
-    color: var(--color-text);
 }
 .remark-slide .remark-slide-number {
     font-size: .8em;
@@ -51,8 +25,6 @@
     bottom: 0em;
 }
 .remark-slide-content.title > h1 {
-    background: var(--color-image-back);
-    color: var(--color-base);
     font-size: 2em;
     padding: .25em .5em;
     margin: 1em -1em;
@@ -68,22 +40,16 @@
     margin: 1em 0em;
 }
 .remark-slide-content:not(.title) > h1 {
-    background: var(--color-main);
-    color: var(--color-back);
     font-size: 2em;
     padding: .13em 0em 0em .4em;
     margin: -.5em -1em .2em -1em;
 }
 .remark-slide-content:not(.title) > h2 {
-    background: var(--color-main);
-    color: var(--color-back);
     font-size: 1.6em;
     padding: .5em 0em 0em .5em;
     margin: -.625em -1.25em .25em -1.25em;
 }
 .remark-slide-content:not(.title) > h3 {
-    background: var(--color-main);
-    color: var(--color-back);
     font-size: 1em;
     padding: 1.6em .5em 0em .8em;
     margin: -1em -2em .2em -2em;
