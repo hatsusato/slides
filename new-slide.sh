@@ -1,0 +1,1 @@
+remarkjs-template/new-slide.sh
