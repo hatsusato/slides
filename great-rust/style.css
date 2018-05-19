@@ -3,6 +3,10 @@
 @import "color.css";
 @import "spacing.css";
 
+.remark-slide > .title {
+    vertical-align: middle;
+    text-align: center;
+}
 .remark-slide .remark-slide-number {
     right: 0em;
     bottom: 0em;
