@@ -1,5 +1,23 @@
+/* global */
+@import url(https://fonts.googleapis.com/css?family=Noto+Sans);
+@import url(https://fonts.googleapis.com/css?family=Noto+Serif);
+@import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono);
+:root {
+    --color-base: hsl(0,0%,95%);
+    --color-base-sub: hsl(0,0%,90%);
+    --color-front: hsl(240,50%,80%);
+    --color-ftont-sub: hsl(0,50%,80%);
+    --color-main: hsl(240,50%,60%);
+    --color-accent: hsl(0,50%,60%);
+    --color-back: hsl(240,50%,40%);
+    --color-back-sub: hsl(0,50%,40%);
+    --color-text: hsl(240,50%,20%);
+}
+html {
+    font-size: 36px;
+}
 /* position */
-.remark-slide .remark-slide-number {
+.remark-slide-content .remark-slide-number {
     right: 0em;
     bottom: 0em;
 }
@@ -19,18 +37,7 @@
     padding-left: 1em;
 }
 /* color */
-:root {
-    --color-base: hsl(0,0%,95%);
-    --color-base-sub: hsl(0,0%,90%);
-    --color-front: hsl(240,50%,80%);
-    --color-ftont-sub: hsl(0,50%,80%);
-    --color-main: hsl(240,50%,60%);
-    --color-accent: hsl(0,50%,60%);
-    --color-back: hsl(240,50%,40%);
-    --color-back-sub: hsl(0,50%,40%);
-    --color-text: hsl(240,50%,20%);
-}
-.remark-slide .remark-slide-content {
+.remark-slide-content .remark-slide-content {
     background: var(--color-base);
     color: var(--color-text);
 }
@@ -39,9 +46,6 @@
     color: var(--color-accent);
 }
 /* font */
-@import url(https://fonts.googleapis.com/css?family=Noto+Sans);
-@import url(https://fonts.googleapis.com/css?family=Noto+Serif);
-@import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono);
 .remark-slide-content {
     font-family: 'Noto Sans';
 }
@@ -55,9 +59,6 @@
     font-family: 'Ubuntu Mono';
 }
 /* text */
-html {
-    font-size: 36px;
-}
 .remark-slide-content {
     font-size: 1rem;
 }
