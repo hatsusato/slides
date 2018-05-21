@@ -2,7 +2,7 @@
     position: relative;
     margin: 1em 0rem;
     padding: 0em 1.5em;
-    background: var(--color-image-back);
+    background: var(--color-front);
 }
 /* position */
 .blockquote::before {

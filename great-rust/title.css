@@ -17,8 +17,8 @@
 /* color */
 .remark-slide-content.title > h1,
 .remark-slide-content.title > h2 {
-    background: var(--color-image-back);
-    color: var(--color-base);
+    background: var(--color-front);
+    color: var(--color-text);
 }
 /* text */
 .remark-slide-content.title {

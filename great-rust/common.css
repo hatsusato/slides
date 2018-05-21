@@ -19,9 +19,20 @@
     padding-left: 1em;
 }
 /* color */
+:root {
+    --color-base: hsl(0,0%,95%);
+    --color-base-sub: hsl(0,0%,90%);
+    --color-front: hsl(240,50%,80%);
+    --color-ftont-sub: hsl(0,50%,80%);
+    --color-main: hsl(240,50%,60%);
+    --color-accent: hsl(0,50%,60%);
+    --color-back: hsl(240,50%,40%);
+    --color-back-sub: hsl(0,50%,40%);
+    --color-text: hsl(240,50%,20%);
+}
 .remark-slide .remark-slide-content {
-    background: var(--color-back);
-    color: var(--color-base);
+    background: var(--color-base);
+    color: var(--color-text);
 }
 .remark-slide-content em,
 .remark-slide-content strong {

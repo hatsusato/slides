@@ -17,11 +17,11 @@
 /* color */
 .remark-slide-content.question > h1 {
     background: var(--color-main);
-    color: var(--color-back);
+    color: var(--color-base);
 }
 .remark-slide-content.question > h2 {
     background: var(--color-accent);
-    color: var(--color-back);
+    color: var(--color-base);
 }
 /* text */
 .remark-slide-content.question > h1 {
