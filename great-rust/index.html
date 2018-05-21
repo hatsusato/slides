@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <link href="main.css" rel="stylesheet" type="text/css">
+    <title>Rustはなにがすごいのか</title>
+  </head>
+  <body>
+    <textarea id="source">
+class: title
+
+# Rustはなにがすごいのか
+
+## メモリセーフ編
+
+### hatsusato
+
+2018/5/21
+
+---
+class: default
+
+# 自己紹介
+
+![enter](enter.png)
+
+## @hatsusato
+
+- KMC7回生
+
+- .oneline[京都大学大学院情報学研究科通信情報システム専攻
+
+五十嵐・末永研究室 D1]
+
+- 研究テーマ：C言語プログラムの静的解析手法
+
+- C言語撲滅委員会会員
+
+- 作画オタク
+
+---
+class: default
+
+# この発表の対象範囲
+
+- 想定聴衆：
+
+  - Rustを学んでみたが難しいと思った人
+
+- 目的：
+
+  - Rustの背後の気持ちの理解を深める
+
+  - このスライドでRustが書けるようにはならない
+
+???
+Rustは誰にとっても難しいので、Rustを学ぼうとした人全員が対象。
+Rust?なにそれ？な人はそんな言語があるのかふーんぐらいでよろしく。
+
+---
+class: default
+
+# Rustとは
+
+- プログラミング言語 Rust (https://www.rust-lang.org/ja-JP/)
+
+.center[
+      <iframe src="https://www.rust-lang.org/ja-JP/"
+              title="プログラミング言語 Rust"
+              width=1000px
+              height=450px>
+      </iframe>
+]
+---
+class: default
+
+# Rustとは
+
+.blockquote[.oneline[
+Rustは速度、安全性、並行性の3つのゴールにフォーカスした
+
+システムプログラミング言語です。
+]]
+
+## 特徴
+
+.double-column[
+- ゼロコスト抽象化
+- ムーブセマンティクス
+- 保証されたメモリ安全性
+- データ競合のないスレッド
+- トレイトによるジェネリクス
+- パターンマッチング
+- 型推論
+- 最小限のランタイム
+- 効率的なCバインディング
+]
+
+---
+class: default
+
+# Rustとは
+
+.blockquote[.oneline[
+Rustは速度、_安全性_、並行性の3つのゴールにフォーカスした
+
+システムプログラミング言語です。
+]]
+
+## 特徴
+
+.double-column[
+- ゼロコスト抽象化
+- ムーブセマンティクス
+- _保証されたメモリ安全性_
+- データ競合のないスレッド
+- トレイトによるジェネリクス
+- パターンマッチング
+- 型推論
+- 最小限のランタイム
+- 効率的なCバインディング
+]
+
+---
+class: default
+
+# 保証されたメモリ安全性
+
+- *保証された*とは？
+
+  - コンパイル時に静的解析を行い、プログラムの安全性を検証する
+
+- *メモリ安全性*とは？
+
+  - 不正なメモリアクセスによるバグや脆弱性がない状態
+
+- *不正なメモリアクセス*とは？
+
+  - バッファオーバーフロー
+  - ダングリングポインタ
+  - etc.
+
+---
+class: question
+
+# Q. メモリ安全性がなぜ必要？
+
+## A. ガーベジコレクションがないから
+
+- 他の言語のほとんどにはガーベジコレクションがある
+
+- ガーベジコレクションがある言語の多くはメモリ安全
+
+Rustはガーベジコレクションのない言語だがメモリ安全性を保証
+
+???
+なぜRustにはメモリ安全性の保証が必要なのか？
+
+正確にはガーベジコレクションだけではバッファオーバーフローは防げない
+追加でバッファオーバーフロー対策があればメモリ安全にできる。
+以下では簡単のためにメモリ安全を時間的メモリ安全を意味するために用いている
+
+---
+class: default
+
+# どうやってメモリ安全に？
+
+Rustの三大新概念
+
+1. Ownership
+
+2. Borrowing
+
+3. Lifetime
+
+???
+この三要素の説明がこの発表でやりたいこと
+
+---
+class: default
+
+# 1. Ownership
+
+- プログラム中の値とその値を所有する変数との対応
+
+  - 所有する変数をOwnerと呼ぶ
+
+- 値は常にただ一つのOwnerと対応する
+
+- Ownerがスコープを抜けると、対応する値が破棄される
+
+```rust
+let x = Box::new(0);
+{
+  let y = x;
+}  // boxed 0 is dropped
+```
+
+---
+class: question
+
+# Q. それってC++のunique_ptrでは？
+
+## A. はい
+
+.less-margin[
+でもRustは安全性の*保証*をする点で異なる
+
+```rust
+let x = Box::new(0);
+{
+  let y = x;
+}
+println!("{}", x);  // compile error
+```
+
+C++は運用でカバー
+
+```c++
+auto x = std::make_unique&lt;int&gt;(0);
+{
+  auto y = std::move(x);
+}
+std::cout << *x << std::endl;  // pass but undefined
+```
+]
+
+???
+ガーベジコレクションを使わないなら結局そうなるよねという戦術
+
+---
+class: default
+
+# 2. Borrowing
+
+参照をつくること
+
+```rust
+let mut x = Box::new(0);
+let y = &mut x;
+```
+
+Borrowingの管理によってMutabilityを検査する
+
+---
+class: default
+
+# Mutability
+
+- 各変数に対して<ruby>変更可能な<rt>mutable</rt></ruby>参照は高々一つである
+
+- <ruby>変更可能な<rt>mutable</rt></ruby>参照が存在するときにはその変数にはそれ以外の参照がない
+
+- <ruby>変更不可能な<rt>immutable</rt></ruby>参照は(存在できるなら)いくつあってもよい
+
+```rust
+let mut x = Box::new(0);
+{
+  let y = &mut x;
+}
+let z = &mut x;
+```
+
+---
+class: question
+
+# Q. Mutabilityの検査は何のため？
+
+## A. データ競合を防ぐため
+
+メモリ安全性にはあまり関係がない
+
+???
+貸した参照の寿命がもとの寿命を超えないようにする必要はあるが、
+参照をいくつ貸し与えようが、Ownerがちゃんと破棄しさえすればよい
+
+スレッドセーフ編をお楽しみに
+
+---
+class: default
+
+# 3. Lifetime
+
+.oneline[
+OwnershipやBorrowingの検査に必要な情報は
+
+Lifetime parameterに含まれる
+]
+
+```rust
+struct Foo<`'a`> {
+  x: &`'a` i32,
+}
+fn choose<`'a,'b`>(x:&`'a` i32, y:&`'b` i32) -> &`'a` i32 {
+  x
+}
+```
+
+---
+class: question
+
+# Q. Lifetime parameterがなぜ必要？
+
+## A. 関数呼び出しの解析のため
+
+関数呼び出しがあると情報の伝搬ができない
+
+Lifetime parameterの役割
+
+- 関数呼び出し前後のOwnership, Borrowing関係を明示
+
+- これを使うと関数呼び出しを含むプログラムの解析が可能
+
+---
+class: question
+
+# Q. Lifetime parameterはどこから来た？
+
+## A. 先行研究がある
+
+.oneline[
+Cycloneという研究で使われていた
+
+region-based memory managementという研究を応用
+]
+
+- .oneline[CycloneはML上で提案されたregion-based memory managementを
+
+C言語に応用する研究]
+
+---
+class: default
+
+# まとめ
+
+Rustはコンパイル時に静的解析を行ってメモリセーフを保証する
+
+既存のアイデアをちゃんとコンパイル時解析として実装したのがえらい
+
+- Ownership: メモリ安全のため
+
+- Borrowing: スレッドセーフのため
+
+- Lifetime: 関数呼び出しのため
+
+---
+class: title
+
+次回予告
+
+# Rustはなにがすごいのか
+## スレッドセーフ編
+
+    </textarea>
+    <script src="js/remark-latest.min.js" type="text/javascript"></script>
+    <script src="js/slide.js" type="text/javascript"></script>
+  </body>
+</html>
