@@ -1,9 +1,9 @@
 @import "css/page16-9.css";
-@import "common.css";
-@import "default.css";
-@import "title.css";
+@import "css/common.css";
+@import "css/default.css";
+@import "css/title.css";
+@import "css/blockquote.css";
 @import "question.css";
-@import "blockquote.css";
 
 .remark-slide-content .oneline {
     margin: .5em 0em;
