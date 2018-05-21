@@ -1,0 +1,29 @@
+.bracket-enum > ol > li,
+.paren-enum > ol > li {
+    display: flex;
+    counter-increment: cnt;
+}
+.bracket-enum > ol > li:before {
+    content: "[" counter(cnt) "]";
+}
+.paren-enum > ol > li:before {
+    content: "(" counter(cnt) ")";
+}
+/* margin */
+.bracket-enum > ol > li,
+.paren-enum > ol > li {
+    margin: .5em 0em;
+}
+.bracket-enum > ol > li > p,
+.paren-enum > ol > li > p {
+    margin: 0em;
+}
+/* padding */
+.bracket-enum > ol,
+.paren-enum > ol {
+    padding-left: 0em;
+}
+.bracket-enum > ol > li:before,
+.paren-enum > ol > li:before {
+    padding-right: .25em;
+}

@@ -1,98 +1,41 @@
 @import "css/page16-9.css";
-@import "font.css";
+@import "common.css";
 @import "color.css";
-@import "spacing.css";
+@import "default.css";
+@import "title.css";
+@import "question.css";
+@import "blockquote.css";
 
-.remark-slide > .title {
-    vertical-align: middle;
-    text-align: center;
+.remark-slide-content .oneline {
+    margin: .5em 0em;
 }
-.remark-slide .remark-slide-number {
-    right: 0em;
-    bottom: 0em;
-}
-.remark-slide-content em, strong {
-    color: var(--color-accent);
+.remark-slide-content .oneline > p {
+    margin: 0em;
 }
 
-.float-left {
-    float: left;
-    display: flex;
+.remark-slide-content .double-column {
+    column-count: 2;
+    margin: .5em 0em;
 }
-.float-right {
-    float: right;
-    display: flex;
+.remark-slide-content .double-column > ul {
+    margin: 0em;
 }
-.small {
-    font-size: .8em;
+
+.remark-slide-content .less-margin > p,
+.remark-slide-content .less-margin > pre {
+    margin: .25em 0em;
 }
-.tiny {
+
+.remark-slide-content ruby > rt {
+    font-weight: normal;
     font-size: .6em;
 }
-.expand img {
-    width: 100%;
+.remark-slide-content ruby {
+    font-weight: bold;
 }
-.img-block img {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
-.h300 img {
-    height: 300px;
-    width: auto;
-}
-.h150 img {
-    height: 150px;
-    width: auto;
-}
-.theorem {
-    border: solid thick var(--color-image-back);
-    margin: .5em 0em;
-}
-.theorem > p:first-child {
-    background: var(--color-image-back);
-    margin: 0em;
-    padding: 0em .5em;
-}
-.theorem > p:not(:first-child) {
-    margin: .5em;
-}
-.theorem > :not(p) {
-    margin: .5em;
-}
-.paren-enum > ol {
-    padding-left: 0em;
-}
-.paren-enum > ol > li {
-    display: flex;
-    counter-increment: cnt;
-    margin: .5em 0em;
-}
-.paren-enum > ol > li:before {
-    content: "(" counter(cnt) ")";
-    padding-right: .25em;
-}
-.paren-enum > ol > li > p {
-    margin: 0em;
-}
-.bracket-enum > ol {
-    padding-left: 0em;
-}
-.bracket-enum > ol > li {
-    display: flex;
-    counter-increment: cnt;
-    margin: .5em 0em;
-}
-.bracket-enum > ol > li:before {
-    content: "[" counter(cnt) "]";
-    padding-right: .25em;
-}
-.bracket-enum > ol > li > p {
-    margin: 0em;
-}
-.remark-slide-content.empty {
-    background: white;
-}
-.remark-slide-content.empty * {
-    display: none;
+
+.remark-slide-content img[alt="enter"] {
+    width: 200px;
+    height: 200px;
+    float: right;
 }

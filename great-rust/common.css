@@ -1,0 +1,61 @@
+/* position */
+.remark-slide .remark-slide-number {
+    right: 0em;
+    bottom: 0em;
+}
+/* margin */
+.remark-slide-content p,
+.remark-slide-content pre,
+.remark-slide-content ol,
+.remark-slide-content ul {
+    margin: .5em 0em;
+}
+/* padding */
+.remark-slide-content .remark-slide-number {
+    padding: .5rem;
+}
+.remark-slide-content ol,
+.remark-slide-content ul {
+    padding-left: 1em;
+}
+/* color */
+.remark-slide .remark-slide-content {
+    background: var(--color-back);
+    color: var(--color-base);
+}
+.remark-slide-content em,
+.remark-slide-content strong {
+    color: var(--color-accent);
+}
+/* font */
+@import url(https://fonts.googleapis.com/css?family=Noto+Sans);
+@import url(https://fonts.googleapis.com/css?family=Noto+Serif);
+@import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono);
+.remark-slide-content {
+    font-family: 'Noto Sans';
+}
+.remark-slide-content h1,
+.remark-slide-content h2,
+.remark-slide-content h3 {
+    font-family: 'Noto Serif';
+}
+.remark-slide-content .remark-code,
+.remark-slide-content .remark-inline-code {
+    font-family: 'Ubuntu Mono';
+}
+/* text */
+html {
+    font-size: 36px;
+}
+.remark-slide-content {
+    font-size: 1rem;
+}
+.remark-slide-content .remark-slide-number {
+    font-size: .8rem;
+}
+.remark-slide-content .remark-inline-code {
+    font-size: 1em;
+}
+.remark-slide-content .remark-code {
+    font-size: .8em;
+}

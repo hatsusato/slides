@@ -21,21 +21,3 @@
 .color-image-back-sub { background: var(--color-image-back-sub); }
 .color-accent { background: var(--color-accent); }
 .color-text-sub { background: var(--color-text-sub); }
-
-.remark-slide .remark-slide-content {
-    background: var(--color-back);
-    color: var(--color-base);
-}
-.remark-slide .remark-inline-code {
-    color: var(--color-text);
-}
-.remark-slide-content.title > h1 {
-    background: var(--color-image-back);
-    color: var(--color-base);
-}
-.remark-slide-content:not(.title) > h1,
-.remark-slide-content:not(.title) > h2,
-.remark-slide-content:not(.title) > h3 {
-    background: var(--color-main);
-    color: var(--color-back);
-}
