@@ -1,3 +1,3 @@
 [submodule "remarkjs-template"]
 	path = remarkjs-template
-	url = git@github.com:hatsusato/remarkjs-template.git
+	url = https://github.com/hatsusato/remarkjs-template.git
