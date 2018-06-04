@@ -361,8 +361,7 @@ class: default
 .blockquote[.oneline[
 Rustは速度、安全性、_並行性_の3つのゴールにフォーカスした
 
-システムプログラミング言語です。
-]]
+システムプログラミング言語です。]]
 
 ## 特徴
 
@@ -377,6 +376,9 @@ Rustは速度、安全性、_並行性_の3つのゴールにフォーカスし�
 - 最小限のランタイム
 - 効率的なCバインディング
 ]
+
+???
+- 後半では並行性やデータ競合のないスレッドについて述べる。
 
 ---
 class: default
@@ -405,12 +407,17 @@ class: default
 
   を参照]
 
+???
+- データ競合はそれだけで大きなトピックなのでここでは深入りしない。
+
+  - KMCの先輩の昔の発表資料がわかりやすいので、そちらを参照推奨。
+
 ---
 class: default
 
 # 方針
 
-Rustでは、スレッドセーフを型の制約によって保証する
+Rustでは、スレッド安全性を_型の制約_によって保証する
 
 - 型にスレッドをまたいでよいかどうかを示す印をつける
 
@@ -418,12 +425,16 @@ Rustでは、スレッドセーフを型の制約によって保証する
 
   - `Sync` traitを実装する型は別スレッドと共有できる
 
-- .oneline[
-スレッド間のデータの受け渡しに関わる関数の引数の
+- .oneline[スレッド間のデータの受け渡しに関わる関数の
 
-型制約により危険な操作を除外
-]
+引数の型制約により危険な操作を制限]
+
   - `std::thread::spawn`は引数として`Send`を実装する型を受け取る
+
+???
+- ここではデータ競合がないことを簡単のためにスレッド安全であると呼ぶことにする。
+
+  - Rustはデータ競合を防ぐが、デッドロックなどのその他の問題についての保証はない。
 
 ---
 class: default
@@ -436,8 +447,8 @@ class: default
 
 ```rust
 trait Speak { fn speak(&self); }
-struct People { name: String }
-impl Speak for People {
+struct Person { name: String }
+impl Speak for Person {
   fn speak(&self) {
     println!("my name is {}", &self.name)
   }
@@ -446,6 +457,10 @@ fn say_something(s: &Speak) {
   s.speak()
 }
 ```
+
+???
+- `speak`ソッドを持つという仕様を表す`Speak`トレイトと、
+`Speak`トレイトを実装する`Person`構造体の例
 
 ---
 class: default
@@ -461,32 +476,21 @@ class: default
 
 - auto trait
 
-  - .oneline[すべてのメンバがそのトレイトを実装するとき、
-
-自動的に実装される]
+  - すべてのメンバがそのトレイトを実装するとき、自動的に実装される
 
 - unsafe trait
 
-  - 安全性のために何らかの制約を満たす必要がある
+  - 安全性のために_何らかの制約_を満たす必要がある
+
+  - その制約を満たしているかどうかは_トレイトの実装者が保証_する
 ]
+???
 
----
-class: default
-# Syncトレイト
-
-immutable参照(`&T`)を別のスレッドに渡しても安全なことを示す
-
-例：
-
-- スカラー型 (`i64`, `f64`, `bool`, etc.)
-
-- `Mutex`, `RwLock`
-
-- Syncな型の参照 (`&T`, `&mut T`)
-
-- メンバの型が全部Syncなstruct
-
-  - Syncな型のコンテナの多く(`Box&lt;T&gt;`, `Vec&lt;T&gt;`, etc.)
+```rust
+pub unsafe auto trait Send { }
+#[lang = "sync"]
+pub unsafe auto trait Sync { }
+```
 
 ---
 class: default
@@ -499,11 +503,51 @@ class: default
 
 例：
 
-- 基本算術型
+- スカラー型 (`i64`, `f64`, `bool`, etc.)
 
-- Syncな型の参照
+- `Sync` な型のimmutable参照 (`&T`)
 
-- メンバの型が全部Sendなstruct
+- メンバの型が全部 `Send` なstruct (auto trait)
+
+???
+- `T: Sync`な型のimmutable参照`&T`の安全性は後述の`Sync`の定義よりわかる。
+
+- 値渡しができる型は大体`Send`だが、
+`Rc`などのポインタを内部にもつ型は`!Send`。
+
+---
+class: default
+# Syncトレイト
+
+immutable参照(`&T`)を別のスレッドに渡しても安全なことを示す
+
+例：
+
+- スカラー型 (`i64`, `f64`, `bool`, etc.)
+
+- `Sync` な型の参照 (`&T`, `&mut T`)
+
+- `Mutex&lt;T&gt;` (`T: Send`)
+
+- `std::sync::atomic` のアトミック型 (`AtomicBool`, `AtomicPtr`, etc.)
+
+- メンバの型が全部 `Sync` なstruct (auto trait)
+
+???
+- immutable参照を渡すということは、
+mutable参照が1つもないということが、borrow checkerにより保証される。
+したがって、interior-mutabilityがなければ渡しても安全である。
+
+  - これにより、スカラー型や参照の参照は`Sync`である
+
+  - mutable参照のimmutable参照について、外側のimmutablityが優先する。
+
+- interior-mutabilityを持つ型であっても`Send`な型であれば、
+`Mutex`によってスレッド安全に扱うことができる。
+
+- アトミックな型は当然スレッド安全。
+
+- `Sync`な型のコンテナの多くも`Sync`を満たす(例: `Box&lt;T&gt;`, `Vec&lt;T&gt;`)
 
 ---
 class: default
@@ -512,11 +556,11 @@ class: default
 
 - スレッド安全性は型制約によって実現される
 
-- .oneline[自明でない型をもつオブジェクトのスレッド安全性は
+- 型のスレッド安全性は実装者が責任を持つ(unsafe)
 
-実装者が責任を持つ(unsafe)]
+  - .oneline[言語はスレッド安全性を保証しないが、
 
-  - 読み込み専用の型は自明に安全
+型の組み合わせ方の安全性は確認してくれる]
 
     </textarea>
     <script src="js/remark-latest.min.js" type="text/javascript"></script>
