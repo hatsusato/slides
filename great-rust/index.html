@@ -346,10 +346,221 @@ Rustはコンパイル時に静的解析を行ってメモリセーフを保証�
 ---
 class: title
 
-次回予告
-
 # Rustはなにがすごいのか
 ## スレッドセーフ編
+
+### hatsusato
+
+2018/5/28
+
+---
+class: default
+
+# Rustとは
+
+.blockquote[.oneline[
+Rustは速度、安全性、_並行性_の3つのゴールにフォーカスした
+
+システムプログラミング言語です。]]
+
+## 特徴
+
+.double-column[
+- ゼロコスト抽象化
+- ムーブセマンティクス
+- 保証されたメモリ安全性
+- _データ競合のないスレッド_
+- トレイトによるジェネリクス
+- パターンマッチング
+- 型推論
+- 最小限のランタイム
+- 効率的なCバインディング
+]
+
+???
+- 後半では並行性やデータ競合のないスレッドについて述べる。
+
+---
+class: default
+
+# データ競合
+
+.float-right[
+      <iframe src="https://www.slideshare.net/slideshow/embed_code/key/o9IqAsUEU6ztGR"
+              title="C++ マルチスレッド 入門"
+              width="510px"
+              height="420px">
+      </iframe>
+]
+
+- .oneline[同一のメモリ領域に対して
+
+  非同期に複数のアクセスがあり、
+
+  それらの中に書き込み操作が
+
+  含まれていること]
+
+- .oneline[詳しくは、
+
+  [C++ マルチスレッド 入門](https://www.slideshare.net/KMC_JP/c-47378581) &#x2192;
+
+  を参照]
+
+???
+- データ競合はそれだけで大きなトピックなのでここでは深入りしない。
+
+  - KMCの先輩の昔の発表資料がわかりやすいので、そちらを参照推奨。
+
+---
+class: default
+
+# 方針
+
+Rustでは、スレッド安全性を_型の制約_によって保証する
+
+- 型にスレッドをまたいでよいかどうかを示す印をつける
+
+  - `Send` traitを実装する型は別スレッドへ転送できる
+
+  - `Sync` traitを実装する型は別スレッドと共有できる
+
+- .oneline[スレッド間のデータの受け渡しに関わる関数の
+
+引数の型制約により危険な操作を制限]
+
+  - `std::thread::spawn`は引数として`Send`を実装する型を受け取る
+
+???
+- ここではデータ競合がないことを簡単のためにスレッド安全であると呼ぶことにする。
+
+  - Rustはデータ競合を防ぐが、デッドロックなどのその他の問題についての保証はない。
+
+---
+class: default
+
+# トレイト
+
+型がもつべきメソッド(仕様)を記述する仕組み
+
+- トレイトの例
+
+```rust
+trait Speak { fn speak(&self); }
+struct Person { name: String }
+impl Speak for Person {
+  fn speak(&self) {
+    println!("my name is {}", &self.name)
+  }
+}
+fn say_something(s: &Speak) {
+  s.speak()
+}
+```
+
+???
+- `speak`ソッドを持つという仕様を表す`Speak`トレイトと、
+`Speak`トレイトを実装する`Person`構造体の例
+
+---
+class: default
+
+# 特殊なトレイト
+
+`Send` / `Sync` は以下の特徴を持つ特殊なトレイト
+
+.less-margin[
+- marker trait
+
+  - メソッド仕様をもたず印として働く
+
+- auto trait
+
+  - すべてのメンバがそのトレイトを実装するとき、自動的に実装される
+
+- unsafe trait
+
+  - 安全性のために_何らかの制約_を満たす必要がある
+
+  - その制約を満たしているかどうかは_トレイトの実装者が保証_する
+]
+???
+
+```rust
+pub unsafe auto trait Send { }
+#[lang = "sync"]
+pub unsafe auto trait Sync { }
+```
+
+---
+class: default
+
+# Sendトレイト
+
+値渡しにより別のスレッドに渡しても安全なことを示す
+
+- `std::thread::spawn` の引数が満たすべき仕様
+
+例：
+
+- スカラー型 (`i64`, `f64`, `bool`, etc.)
+
+- `Sync` な型のimmutable参照 (`&T`)
+
+- メンバの型が全部 `Send` なstruct (auto trait)
+
+???
+- `T: Sync`な型のimmutable参照`&T`の安全性は後述の`Sync`の定義よりわかる。
+
+- 値渡しができる型は大体`Send`だが、
+`Rc`などのポインタを内部にもつ型は`!Send`。
+
+---
+class: default
+# Syncトレイト
+
+immutable参照(`&T`)を別のスレッドに渡しても安全なことを示す
+
+例：
+
+- スカラー型 (`i64`, `f64`, `bool`, etc.)
+
+- `Sync` な型の参照 (`&T`, `&mut T`)
+
+- `Mutex&lt;T&gt;` (`T: Send`)
+
+- `std::sync::atomic` のアトミック型 (`AtomicBool`, `AtomicPtr`, etc.)
+
+- メンバの型が全部 `Sync` なstruct (auto trait)
+
+???
+- immutable参照を渡すということは、
+mutable参照が1つもないということが、borrow checkerにより保証される。
+したがって、interior-mutabilityがなければ渡しても安全である。
+
+  - これにより、スカラー型や参照の参照は`Sync`である
+
+  - mutable参照のimmutable参照について、外側のimmutablityが優先する。
+
+- interior-mutabilityを持つ型であっても`Send`な型であれば、
+`Mutex`によってスレッド安全に扱うことができる。
+
+- アトミックな型は当然スレッド安全。
+
+- `Sync`な型のコンテナの多くも`Sync`を満たす(例: `Box&lt;T&gt;`, `Vec&lt;T&gt;`)
+
+---
+class: default
+
+# まとめ
+
+- スレッド安全性は型制約によって実現される
+
+- 型のスレッド安全性は実装者が責任を持つ(unsafe)
+
+  - .oneline[言語はスレッド安全性を保証しないが、
+
+型の組み合わせ方の安全性は確認してくれる]
 
     </textarea>
     <script src="js/remark-latest.min.js" type="text/javascript"></script>

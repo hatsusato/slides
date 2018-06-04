@@ -20,8 +20,10 @@
     margin: 0em;
 }
 
-.remark-slide-content .less-margin > p,
-.remark-slide-content .less-margin > pre {
+.remark-slide-content .less-margin p,
+.remark-slide-content .less-margin pre,
+.remark-slide-content .less-margin ul,
+.remark-slide-content .less-margin div {
     margin: .25em 0em;
 }
 
@@ -36,4 +38,21 @@
     width: 200px;
     height: 200px;
     float: right;
+}
+
+.float-left {
+    float: left;
+}
+.float-right {
+    float: right;
+}
+iframe {
+    border-style: none;
+}
+code.remark-inline-code {
+    background: var(--color-base-sub);
+    border: 2px solid var(--color-base-sub);
+}
+.remark-slide-content code.remark-code {
+    display: inline-block;
 }
