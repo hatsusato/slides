@@ -1,39 +1,13 @@
+/* master slide */
 @import "css/page16-9.css";
 @import "css/common.css";
-@import "css/default.css";
 @import "css/title.css";
+@import "css/question.css";
+/* extension */
 @import "css/blockquote.css";
-@import "question.css";
-
-.remark-slide-content .oneline {
-    margin: .5em 0em;
-}
-.remark-slide-content .oneline > p {
-    margin: 0em;
-}
-
-.remark-slide-content .double-column {
-    column-count: 2;
-    margin: .5em 0em;
-}
-.remark-slide-content .double-column > ul {
-    margin: 0em;
-}
-
-.remark-slide-content .less-margin > p,
-.remark-slide-content .less-margin > pre {
-    margin: .25em 0em;
-}
-
-.remark-slide-content ruby > rt {
-    font-size: .6em;
-}
-.remark-slide-content ruby {
-    font-weight: bold;
-}
-
-.remark-slide-content img[alt="enter"] {
-    width: 200px;
-    height: 200px;
-    float: right;
-}
+@import "css/column.css";
+@import "css/float.css";
+@import "css/img.css";
+@import "css/margin.css";
+@import "css/oneline.css";
+@import "css/ruby.css";

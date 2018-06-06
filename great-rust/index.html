@@ -18,7 +18,6 @@ class: title
 2018/5/21
 
 ---
-class: default
 
 # 自己紹介
 
@@ -28,41 +27,44 @@ class: default
 
 - KMC7回生
 
-- .oneline[京都大学大学院情報学研究科通信情報システム専攻
+- .oneline[
+京都大学大学院情報学研究科通信情報システム専攻
 
-五十嵐・末永研究室 D1]
+五十嵐・末永研究室 D1
+]
 
-- 研究テーマ：C言語プログラムの静的解析手法
+  - 研究テーマ： C言語プログラムの静的解析手法
 
 - C言語撲滅委員会会員
 
 - 作画オタク
 
 ---
-class: default
 
-# この発表の対象範囲
+# アウトライン
 
-- 想定聴衆：
+Rustの言語仕様の背後にある気持ちの理解を深める
 
-  - Rustを学んでみたが難しいと思った人
+- 前編： Rustのメモリ安全性保証の仕組みについて
 
-- 目的：
+- 後編： Rustのスレッド安全性保証の仕組みについて
 
-  - Rustの背後の気持ちの理解を深める
+対象聴衆：
+
+- Rustを学んでみたが難しいと思った人
 
   - このスライドでRustが書けるようにはならない
 
 ???
-Rustは誰にとっても難しいので、Rustを学ぼうとした人全員が対象。
-Rust?なにそれ？な人はそんな言語があるのかふーんぐらいでよろしく。
+- Rustは誰にとっても難しいので、Rustを学ぼうとした人全員が対象。
+
+- Rust?なにそれ?な人はそんな言語があるのかふーんぐらいでよろしく。
 
 ---
-class: default
 
 # Rustとは
 
-- プログラミング言語 Rust (https://www.rust-lang.org/ja-JP/)
+プログラミング言語 Rust (https://www.rust-lang.org/ja-JP/)
 
 .center[
       <iframe src="https://www.rust-lang.org/ja-JP/"
@@ -71,8 +73,11 @@ class: default
               height=450px>
       </iframe>
 ]
+
+???
+- デモを実行してみたりして少し遊ぶ。
+
 ---
-class: default
 
 # Rustとは
 
@@ -96,13 +101,15 @@ Rustは速度、安全性、並行性の3つのゴールにフォーカスした
 - 効率的なCバインディング
 ]
 
+???
+- 先ほどのページから抜粋。
+
 ---
-class: default
 
 # Rustとは
 
 .blockquote[.oneline[
-Rustは速度、_安全性_、並行性の3つのゴールにフォーカスした
+Rustは速度、*安全性*、並行性の3つのゴールにフォーカスした
 
 システムプログラミング言語です。
 ]]
@@ -112,7 +119,7 @@ Rustは速度、_安全性_、並行性の3つのゴールにフォーカスし�
 .double-column[
 - ゼロコスト抽象化
 - ムーブセマンティクス
-- _保証されたメモリ安全性_
+- *保証されたメモリ安全性*
 - データ競合のないスレッド
 - トレイトによるジェネリクス
 - パターンマッチング
@@ -121,14 +128,16 @@ Rustは速度、_安全性_、並行性の3つのゴールにフォーカスし�
 - 効率的なCバインディング
 ]
 
+???
+- これらのうち、前編では保証されたメモリ安全性に注目する。
+
 ---
-class: default
 
 # 保証されたメモリ安全性
 
 - *保証された*とは？
 
-  - コンパイル時に静的解析を行い、プログラムの安全性を検証する
+  - コンパイル時に静的解析を行い、プログラムの安全性を検証
 
 - *メモリ安全性*とは？
 
@@ -143,9 +152,9 @@ class: default
 ---
 class: question
 
-# Q. メモリ安全性がなぜ必要？
+# メモリ安全性がなぜ必要？
 
-## A. ガーベジコレクションがないから
+## ガーベジコレクションがないから
 
 - 他の言語のほとんどにはガーベジコレクションがある
 
@@ -154,14 +163,12 @@ class: question
 Rustはガーベジコレクションのない言語だがメモリ安全性を保証
 
 ???
-なぜRustにはメモリ安全性の保証が必要なのか？
+- 正確には、ガーベジコレクションだけではバッファオーバーフローは防げない。
+ガーベジコレクションに加えてバッファオーバーフロー対策がある言語がメモリ安全な言語。
 
-正確にはガーベジコレクションだけではバッファオーバーフローは防げない
-追加でバッファオーバーフロー対策があればメモリ安全にできる。
-以下では簡単のためにメモリ安全を時間的メモリ安全を意味するために用いている
+- 以下では簡単のためにメモリ安全性を時間的メモリ安全性の意味で用いる。
 
 ---
-class: default
 
 # どうやってメモリ安全に？
 
@@ -174,10 +181,9 @@ Rustの三大新概念
 3. Lifetime
 
 ???
-この三要素の説明がこの発表でやりたいこと
+- この三要素が前編で説明したいこと。
 
 ---
-class: default
 
 # 1. Ownership
 
@@ -185,9 +191,9 @@ class: default
 
   - 所有する変数をOwnerと呼ぶ
 
-- 値は常にただ一つのOwnerと対応する
+- 値は常にただ一つのOwnerと対応
 
-- Ownerがスコープを抜けると、対応する値が破棄される
+- Ownerがスコープを抜けると、対応する値を破棄
 
 ```rust
 let x = Box::new(0);
@@ -196,15 +202,21 @@ let x = Box::new(0);
 }  // boxed 0 is dropped
 ```
 
+???
+1. `Box`型の変数`x`が値`0`を所有しOwnerとなる。
+
+2. `y`に`x`を代入すると値`0`の所有権が移動し`y`がOwnerとなる。
+
+3. `y`がスコープを抜け、`y`が所有する値`0`が破棄される。
+
 ---
 class: question
 
-# Q. それってC++のunique_ptrでは？
+# それってC++のunique_ptrでは？
 
-## A. はい
+## はい
 
-.less-margin[
-でもRustは安全性の*保証*をする点で異なる
+しかし、Rustは安全性の*保証*をする点で異なる
 
 ```rust
 let x = Box::new(0);
@@ -214,7 +226,18 @@ let x = Box::new(0);
 println!("{}", x);  // compile error
 ```
 
-C++は運用でカバー
+???
+- `y`への代入によって`x`はもはや有効な値を指していないので、
+コンパイルエラーにより不正なアクセスを防ぐ。
+
+---
+class: question
+
+# それってC++のunique_ptrでは？
+
+## はい
+
+一方、C++は運用でカバー
 
 ```c++
 auto x = std::make_unique&lt;int&gt;(0);
@@ -223,13 +246,14 @@ auto x = std::make_unique&lt;int&gt;(0);
 }
 std::cout << *x << std::endl;  // pass but undefined
 ```
-]
 
 ???
-ガーベジコレクションを使わないなら結局そうなるよねという戦術
+- このコードはコンパイルは通るが、実行時に未定義動作となり、おそらくセグフォなどを引き起こす。
+
+- C++に限らず、これまでのほとんどの言語はこの種の問題を、
+注意深く実装することによって回避する。
 
 ---
-class: default
 
 # 2. Borrowing
 
@@ -240,18 +264,46 @@ let mut x = Box::new(0);
 let y = &mut x;
 ```
 
-Borrowingの管理によってMutabilityを検査する
+.oneline[
+Borrowingにまつわる不正な操作を、
+
+AliasingおよびMutabilityの制約により防ぐ
+]
+
+???
+1. 変数`x`が値`0`を所有する。
+
+2. 変数`y`が`x`へのmutable参照をもつ。
 
 ---
-class: default
+
+# Aliasing
+
+- 1つの値に対する<ruby>変更不可能な<rt>immutable</rt></ruby>
+参照はいくつ存在してもよい
+
+```rust
+let v = vec![0, 1, 2];
+let x = &v[0];
+let y = &v[1];
+let z = &v[2];
+println!("{} {} {}", &x, &y, &z);
+```
+
+???
+- `x`, `y`, `z`は同じ値`v`をimmutableに参照する。
+
+---
 
 # Mutability
 
-- 各変数に対して<ruby>変更可能な<rt>mutable</rt></ruby>参照は高々一つである
+- 1つの値に対する<ruby>変更可能な<rt>mutable</rt></ruby>参照は高々一つである
 
-- <ruby>変更可能な<rt>mutable</rt></ruby>参照が存在するときにはその変数にはそれ以外の参照がない
+  - .oneline[
+<ruby>変更可能な<rt>mutable</rt></ruby>参照が存在するときには、
 
-- <ruby>変更不可能な<rt>immutable</rt></ruby>参照は(存在できるなら)いくつあってもよい
+その値を指す参照が同時に複数あってはならない
+]
 
 ```rust
 let mut x = Box::new(0);
@@ -261,23 +313,48 @@ let mut x = Box::new(0);
 let z = &mut x;
 ```
 
+???
+- `y`, `z`はいずれも同じ値`x`を参照するが、
+スコープの分割によって同時には参照していない。
+
 ---
 class: question
 
-# Q. Mutabilityの検査は何のため？
+# Borrowingの検査は何のため？
 
-## A. データ競合を防ぐため
+## 無効になったエイリアスへのアクセスを防ぐため
 
-メモリ安全性にはあまり関係がない
+- .oneline[
+オブジェクトを指す参照がある状態でそのオブジェクトを変更すると、
+
+参照が無効になる可能性がある
+]
+
+  - .oneline[
+1つのmutable参照のみがオブジェクトを参照しているならば、
+
+無効なエイリアスへのアクセスは発生しない
+]
+
+```rust
+let mut v = vec![0];
+let r = &v[0];
+v.push(0);  // won't compile
+println!("{}", r);  // UB
+```
 
 ???
-貸した参照の寿命がもとの寿命を超えないようにする必要はあるが、
-参照をいくつ貸し与えようが、Ownerがちゃんと破棄しさえすればよい
+- もしこのプログラムがコンパイルできた場合、
+`v.push()`の呼び出しの結果、`r`の参照が無効になる可能性がある。
 
-スレッドセーフ編をお楽しみに
+  - `println!`での`r`へのアクセスによって未定義動作となりうる。
+
+- `v.push()`の呼び出しにおいて、`self`として`&mut v`が渡される。
+このとき、`r`と`&mut v`の2つの参照が発生する。
+
+  - Rustはこれを認めないことで無効なエイリアスの発生を防ぐ。
 
 ---
-class: default
 
 # 3. Lifetime
 
@@ -289,67 +366,305 @@ Lifetime parameterに含まれる
 
 ```rust
 struct Foo<`'a`> {
-  x: &`'a` i32,
+  x: &`'a` i64,
 }
-fn choose<`'a,'b`>(x:&`'a` i32, y:&`'b` i32) -> &`'a` i32 {
+fn choose<`'a,'b`>(x:&`'a` i64, y:&`'b` i64) -> &`'a` i64 {
   x
 }
 ```
 
+???
+- ハイライトしている部分がLifetime parameter。
+
 ---
 class: question
 
-# Q. Lifetime parameterがなぜ必要？
+# Lifetime parameterがなぜ必要？
 
-## A. 関数呼び出しの解析のため
+## 関数呼び出しを含むプログラムの解析のため
 
 関数呼び出しがあると情報の伝搬ができない
 
-Lifetime parameterの役割
+- .oneline[
+Lifetime parameterを用いて、
 
-- 関数呼び出し前後のOwnership, Borrowing関係を明示
+関数呼び出し前後のOwnership, Borrowing関係を明示
+]
 
-- これを使うと関数呼び出しを含むプログラムの解析が可能
+- これにより、*関数定義ごとの解析*が可能に
+
+```rust
+let y = 0i64;
+let x: &i64;
+{
+  let z = 1i64;
+  x = choose(&y, &z);
+}
+```
+
+???
+- `choose`が`&y`, `&z`のどちらを返すのかがわからないと、`x`の寿命を決定できない。
+
+- Lifetime parameterのおかげで`choose`の定義を見なくても、
+宣言のみから戻り値の寿命を決定できる。
 
 ---
 class: question
 
-# Q. Lifetime parameterはどこから来た？
+# Lifetime parameterはどこから来た？
 
-## A. 先行研究がある
+## 先行研究がある
 
-.oneline[
-Cycloneという研究で使われていた
+RustはCycloneという先行研究を参照
 
-region-based memory managementという研究を応用
-]
+- Lifetime parameterはCycloneではregion annotationと呼ばれる
 
-- .oneline[CycloneはML上で提案されたregion-based memory managementを
+- CycloneのLifetime管理の仕組みをそっくりそのまま採用
 
-C言語に応用する研究]
+???
+- 僕は自分の研究の過程でCycloneの論文を読んでいるので詳しい。
+
+- region annotationはregion variableやregion qualifierとも呼ばれる。
 
 ---
-class: default
 
 # まとめ
 
-Rustはコンパイル時に静的解析を行ってメモリセーフを保証する
-
-既存のアイデアをちゃんとコンパイル時解析として実装したのがえらい
+Rustはコンパイル時に静的解析を行ってメモリ安全性を保証
 
 - Ownership: メモリ安全のため
 
-- Borrowing: スレッドセーフのため
+- Borrowing: 無効なエイリアスを防ぐため
 
 - Lifetime: 関数呼び出しのため
+
+???
+- 個人的に思うRustの一番すごいところは、
+(flow-insensitiveな)コンパイル時静的解析を備えた(実用的)プログラミング言語を
+初めてちゃんと実装したところにある。
 
 ---
 class: title
 
-次回予告
-
 # Rustはなにがすごいのか
 ## スレッドセーフ編
+
+### hatsusato
+
+2018/5/28
+
+---
+
+# Rustとは
+
+.blockquote[.oneline[
+Rustは速度、安全性、*並行性*の3つのゴールにフォーカスした
+
+システムプログラミング言語です。
+]]
+
+## 特徴
+
+.double-column[
+- ゼロコスト抽象化
+- ムーブセマンティクス
+- 保証されたメモリ安全性
+- *データ競合のないスレッド*
+- トレイトによるジェネリクス
+- パターンマッチング
+- 型推論
+- 最小限のランタイム
+- 効率的なCバインディング
+]
+
+???
+- 後半では並行性やデータ競合のないスレッドについて述べる。
+
+---
+
+# データ競合
+
+.float-left[
+- .oneline[
+同一のメモリ領域に対して
+
+非同期に複数のアクセスがあり、
+
+それらの中に書き込み操作が
+
+含まれること
+]
+
+- .oneline[
+詳しくは、
+
+[C++ マルチスレッド 入門](https://www.slideshare.net/KMC_JP/c-47378581) &#x2192;
+
+を参照
+]
+]
+
+.float-right[
+      <iframe src="https://www.slideshare.net/slideshow/embed_code/key/o9IqAsUEU6ztGR"
+              title="C++ マルチスレッド 入門"
+              width="510px"
+              height="420px">
+      </iframe>
+]
+
+???
+- データ競合はそれだけで大きなトピックなのでここでは深入りしない。
+
+  - KMCの先輩の昔の発表資料がわかりやすいので、そちらを参照推奨。
+
+---
+
+# 方針
+
+Rustでは、スレッド安全性を*型の制約*によって保証
+
+- 型にスレッドをまたいでよいかどうかを示す印をつける
+
+  - `Send` traitを実装する型は別スレッドへ転送できる
+
+  - `Sync` traitを実装する型は別スレッドと共有できる
+
+- .oneline[
+スレッド間のデータの受け渡しに関わる関数の
+
+引数の型制約により危険な操作を制限
+]
+
+  - `std::thread::spawn`は引数として`Send`を実装する型を受け取る
+
+???
+- ここではデータ競合がないことを簡単のためにスレッド安全であると呼ぶことにする。
+
+  - Rustはデータ競合を防ぐが、デッドロックなどのその他の問題についての保証はない。
+
+---
+
+# トレイト
+
+型がもつべきメソッド(仕様)を記述する仕組み
+
+- トレイトの例
+
+```rust
+trait Speak { fn speak(&self); }
+struct Person { name: String }
+impl Speak for Person {
+  fn speak(&self) {
+    println!("my name is {}", &self.name)
+  }
+}
+fn say_something(s: &Speak) {
+  s.speak()
+}
+```
+
+???
+- `speak`ソッドをもつという仕様を表す`Speak`トレイトと、
+`Speak`トレイトを実装する`Person`構造体の例
+
+---
+
+# 特殊なトレイト
+
+`Send` / `Sync` は以下の特徴をもつ特殊なトレイト
+
+.less-margin[
+- marker trait
+
+  - メソッド仕様をもたず印として働く
+
+- auto trait
+
+  - すべてのメンバがそのトレイトを実装するとき、自動的に実装される
+
+- unsafe trait
+
+  - 安全性のために*何らかの制約*を満たす必要がある
+
+  - その制約を満たしているかどうかは*トレイトの実装者が保証*する
+]
+???
+
+```rust
+pub unsafe auto trait Send { }
+#[lang = "sync"]
+pub unsafe auto trait Sync { }
+```
+
+---
+
+# Sendトレイト
+
+値渡しにより別のスレッドに渡しても安全なことを示す
+
+- `std::thread::spawn` の引数が満たすべき仕様
+
+例：
+
+- スカラー型 (`i64`, `f64`, `bool`, etc.)
+
+- `Sync` な型のimmutable参照 (`&T`)
+
+- メンバの型が全部 `Send` なstruct (auto trait)
+
+???
+- `T: Sync`な型のimmutable参照`&T`の安全性は後述の`Sync`の定義よりわかる。
+
+- 値渡しができる型は大体`Send`だが、
+`Rc`などのポインタを内部にもつ型は`!Send`。
+
+---
+
+# Syncトレイト
+
+immutable参照(`&T`)を別のスレッドに渡しても安全なことを示す
+
+例：
+
+- スカラー型 (`i64`, `f64`, `bool`, etc.)
+
+- `Sync` な型の参照 (`&T`, `&mut T`)
+
+- `Mutex&lt;T&gt;` (`T: Send`)
+
+- `std::sync::atomic` のアトミック型 (`AtomicBool`, `AtomicPtr`, etc.)
+
+- メンバの型が全部 `Sync` なstruct (auto trait)
+
+???
+- immutable参照を渡すということは、
+mutable参照が1つもないということが、borrow checkerにより保証される。
+したがって、interior-mutabilityがなければ渡しても安全である。
+
+  - これにより、スカラー型や参照の参照は`Sync`である
+
+  - mutable参照のimmutable参照について、外側のimmutablityが優先する。
+
+- interior-mutabilityをもつ型であっても`Send`な型であれば、
+`Mutex`によってスレッド安全に扱うことができる。
+
+- アトミックな型は当然スレッド安全。
+
+- `Sync`な型のコンテナの多くも`Sync`を満たす(例: `Box&lt;T&gt;`, `Vec&lt;T&gt;`)
+
+---
+
+# まとめ
+
+- スレッド安全性は型制約によって実現される
+
+- 型のスレッド安全性は実装者が責任をもつ(unsafe)
+
+  - .oneline[
+言語機能自体はスレッド安全性を保証しないが、
+
+型の組み合わせ方の安全性は確認する
+]
 
     </textarea>
     <script src="js/remark-latest.min.js" type="text/javascript"></script>
