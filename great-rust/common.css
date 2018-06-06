@@ -16,6 +16,7 @@
 }
 html {
     font-size: 36px;
+    line-height: 1.25;
 }
 .remark-notes-area {
     font-size: .5rem;
@@ -33,9 +34,6 @@ html {
 /* clear */
 /* width */
 /* height */
-.remark-slide-content {
-    line-height: 1.5;
-}
 .remark-slide-content pre {
     line-height: 1;
 }
