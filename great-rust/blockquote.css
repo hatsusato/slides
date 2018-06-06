@@ -1,0 +1,50 @@
+/* display */
+/* list-style */
+/* position */
+.remark-slide-content .blockquote {
+    position: relative;
+}
+.remark-slide-content .blockquote::after {
+    position: absolute;
+    top: 0em; left: 0rem;
+}
+.remark-slide-content .blockquote::before {
+    position: absolute;
+    bottom: -.4em; right: 0rem;
+}
+/* float */
+/* clear */
+/* width */
+/* height */
+/* margin */
+.remark-slide-content .blockquote {
+    margin: 1em 0rem;
+}
+/* padding */
+.remark-slide-content .blockquote {
+    padding: 0em 1.5rem;
+}
+/* border */
+/* background */
+.remark-slide-content .blockquote {
+    background: var(--color-front);
+}
+/* color */
+/* font */
+.remark-slide-content .blockquote::after,
+.remark-slide-content .blockquote::before {
+    font-family: "Noto Serif";
+    font-size: 2em;
+ }
+/* text-decoration */
+/* text-align */
+/* vertical-align */
+/* white-space */
+/* other text */
+/* content */
+.remark-slide-content .blockquote::before {
+    content: "\201C";
+}
+.remark-slide-content .blockquote::after {
+    content: "\201D";
+}
