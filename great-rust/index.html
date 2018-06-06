@@ -18,7 +18,6 @@ class: title
 2018/5/21
 
 ---
-class: default
 
 # 自己紹介
 
@@ -41,7 +40,6 @@ class: default
 - 作画オタク
 
 ---
-class: default
 
 # アウトライン
 
@@ -63,7 +61,6 @@ Rustの言語仕様の背後にある気持ちの理解を深める
 - Rust?なにそれ?な人はそんな言語があるのかふーんぐらいでよろしく。
 
 ---
-class: default
 
 # Rustとは
 
@@ -81,7 +78,6 @@ class: default
 - デモを実行してみたりして少し遊ぶ。
 
 ---
-class: default
 
 # Rustとは
 
@@ -109,7 +105,6 @@ Rustは速度、安全性、並行性の3つのゴールにフォーカスした
 - 先ほどのページから抜粋。
 
 ---
-class: default
 
 # Rustとは
 
@@ -137,7 +132,6 @@ Rustは速度、*安全性*、並行性の3つのゴールにフォーカスし�
 - これらのうち、前編では保証されたメモリ安全性に注目する。
 
 ---
-class: default
 
 # 保証されたメモリ安全性
 
@@ -175,7 +169,6 @@ Rustはガーベジコレクションのない言語だがメモリ安全性を�
 - 以下では簡単のためにメモリ安全性を時間的メモリ安全性の意味で用いる。
 
 ---
-class: default
 
 # どうやってメモリ安全に？
 
@@ -191,7 +184,6 @@ Rustの三大新概念
 - この三要素が前編で説明したいこと。
 
 ---
-class: default
 
 # 1. Ownership
 
@@ -262,7 +254,6 @@ std::cout << *x << std::endl;  // pass but undefined
 注意深く実装することによって回避する。
 
 ---
-class: default
 
 # 2. Borrowing
 
@@ -285,7 +276,6 @@ AliasingおよびMutabilityの制約により防ぐ
 2. 変数`y`が`x`へのmutable参照をもつ。
 
 ---
-class: default
 
 # Aliasing
 
@@ -304,7 +294,6 @@ println!("{} {} {}", &x, &y, &z);
 - `x`, `y`, `z`は同じ値`v`をimmutableに参照する。
 
 ---
-class: default
 
 # Mutability
 
@@ -366,7 +355,6 @@ println!("{}", r);  // UB
   - Rustはこれを認めないことで無効なエイリアスの発生を防ぐ。
 
 ---
-class: default
 
 # 3. Lifetime
 
@@ -437,7 +425,6 @@ RustはCycloneという先行研究を参照
 - 僕は自分の研究の過程でCycloneの論文を読んでいるので詳しい。
 
 ---
-class: default
 
 # まとめ
 
@@ -465,7 +452,6 @@ class: title
 2018/5/28
 
 ---
-class: default
 
 # Rustとは
 
@@ -493,7 +479,6 @@ Rustは速度、安全性、*並行性*の3つのゴールにフォーカスし�
 - 後半では並行性やデータ競合のないスレッドについて述べる。
 
 ---
-class: default
 
 # データ競合
 
@@ -529,7 +514,6 @@ class: default
   - KMCの先輩の昔の発表資料がわかりやすいので、そちらを参照推奨。
 
 ---
-class: default
 
 # 方針
 
@@ -555,7 +539,6 @@ Rustでは、スレッド安全性を*型の制約*によって保証
   - Rustはデータ競合を防ぐが、デッドロックなどのその他の問題についての保証はない。
 
 ---
-class: default
 
 # トレイト
 
@@ -581,7 +564,6 @@ fn say_something(s: &Speak) {
 `Speak`トレイトを実装する`Person`構造体の例
 
 ---
-class: default
 
 # 特殊なトレイト
 
@@ -611,7 +593,6 @@ pub unsafe auto trait Sync { }
 ```
 
 ---
-class: default
 
 # Sendトレイト
 
@@ -634,7 +615,7 @@ class: default
 `Rc`などのポインタを内部にもつ型は`!Send`。
 
 ---
-class: default
+
 # Syncトレイト
 
 immutable参照(`&T`)を別のスレッドに渡しても安全なことを示す
@@ -668,7 +649,6 @@ mutable参照が1つもないということが、borrow checkerにより保証�
 - `Sync`な型のコンテナの多くも`Sync`を満たす(例: `Box&lt;T&gt;`, `Vec&lt;T&gt;`)
 
 ---
-class: default
 
 # まとめ
 
