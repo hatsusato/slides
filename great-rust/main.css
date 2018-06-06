@@ -1,13 +1,13 @@
 /* master slide */
-@import "css/page16-9.css";
-@import "css/common.css";
-@import "css/title.css";
-@import "css/question.css";
+@import "page16-9.css";
+@import "common.css";
+@import "title.css";
+@import "question.css";
 /* extension */
-@import "css/blockquote.css";
-@import "css/column.css";
-@import "css/float.css";
-@import "css/img.css";
-@import "css/margin.css";
-@import "css/oneline.css";
-@import "css/ruby.css";
+@import "blockquote.css";
+@import "column.css";
+@import "float.css";
+@import "img.css";
+@import "margin.css";
+@import "oneline.css";
+@import "ruby.css";
