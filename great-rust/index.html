@@ -152,9 +152,9 @@ Rustは速度、*安全性*、並行性の3つのゴールにフォーカスし�
 ---
 class: question
 
-# Q. メモリ安全性がなぜ必要？
+# メモリ安全性がなぜ必要？
 
-## A. ガーベジコレクションがないから
+## ガーベジコレクションがないから
 
 - 他の言語のほとんどにはガーベジコレクションがある
 
@@ -212,9 +212,9 @@ let x = Box::new(0);
 ---
 class: question
 
-# Q. それってC++のunique_ptrでは？
+# それってC++のunique_ptrでは？
 
-## A. はい
+## はい
 
 しかし、Rustは安全性の*保証*をする点で異なる
 
@@ -233,9 +233,9 @@ println!("{}", x);  // compile error
 ---
 class: question
 
-# Q. それってC++のunique_ptrでは？
+# それってC++のunique_ptrでは？
 
-## A. はい
+## はい
 
 一方、C++は運用でカバー
 
@@ -320,9 +320,9 @@ let z = &mut x;
 ---
 class: question
 
-# Q. Borrowingの検査は何のため？
+# Borrowingの検査は何のため？
 
-## A. 無効になったエイリアスへのアクセスを防ぐため
+## 無効になったエイリアスへのアクセスを防ぐため
 
 - .oneline[
 オブジェクトを指す参照がある状態でそのオブジェクトを変更すると、
@@ -379,9 +379,9 @@ fn choose<`'a,'b`>(x:&`'a` i64, y:&`'b` i64) -> &`'a` i64 {
 ---
 class: question
 
-# Q. Lifetime parameterがなぜ必要？
+# Lifetime parameterがなぜ必要？
 
-## A. 関数呼び出しを含むプログラムの解析のため
+## 関数呼び出しを含むプログラムの解析のため
 
 関数呼び出しがあると情報の伝搬ができない
 
@@ -411,9 +411,9 @@ let x: &i64;
 ---
 class: question
 
-# Q. Lifetime parameterはどこから来た？
+# Lifetime parameterはどこから来た？
 
-## A. 先行研究がある
+## 先行研究がある
 
 RustはCycloneという先行研究を参照
 
