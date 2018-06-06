@@ -4,13 +4,13 @@
 .remark-slide-content .blockquote {
     position: relative;
 }
-.remark-slide-content .blockquote::after {
-    position: absolute;
-    top: 0em; left: 0rem;
-}
 .remark-slide-content .blockquote::before {
     position: absolute;
-    bottom: -.4em; right: 0rem;
+    top: -.3em; left: 0rem;
+}
+.remark-slide-content .blockquote::after {
+    position: absolute;
+    bottom: -.6em; right: 0rem;
 }
 /* float */
 /* clear */
@@ -31,8 +31,8 @@
 }
 /* color */
 /* font */
-.remark-slide-content .blockquote::after,
-.remark-slide-content .blockquote::before {
+.remark-slide-content .blockquote::before,
+.remark-slide-content .blockquote::after {
     font-family: "Noto Serif";
     font-size: 2em;
  }
