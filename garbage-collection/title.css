@@ -1,0 +1,56 @@
+/* margin */
+/* padding */
+/* color */
+/* text */
+
+/* display */
+/* list-style */
+/* position */
+/* float */
+/* clear */
+/* width */
+/* height */
+/* margin */
+.remark-slide-content.title > h1,
+.remark-slide-content.title > h2 {
+    margin: 0em -2rem;
+}
+/* padding */
+.remark-slide-content.title {
+    padding: 1em 2rem;
+}
+.remark-slide-content.title > h1,
+.remark-slide-content.title > h2 {
+    padding: .5em 2rem;
+}
+/* border */
+/* background */
+.remark-slide-content.title > h2 {
+    background: var(--color-front);
+}
+/* color */
+.remark-slide-content.title > h2 {
+    color: var(--color-base);
+}
+/* font */
+.remark-slide-content.title > h1 {
+    font-size: 2rem;
+}
+.remark-slide-content.title > h2 {
+    font-size: 1.5rem;
+}
+.remark-slide-content.title > h3 {
+    font-size: 1.5rem;
+}
+/* text-decoration */
+/* text-align */
+.remark-slide-content.title {
+    text-align: center;
+}
+/* vertical-align */
+.remark-slide-content.title {
+    vertical-align: middle;
+}
+/* white-space */
+/* other text */
+/* content */
