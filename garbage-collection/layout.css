@@ -1,0 +1,111 @@
+/* display */
+.remark-slide-content .bracket-enum > ol > li,
+.remark-slide-content .paren-enum > ol > li {
+    display: flex;
+}
+.remark-slide-content .flex {
+    display: flex;
+}
+.remark-slide-content .flex-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+.remark-slide-content .flex-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.remark-slide-content .block {
+    display: block;
+}
+/* list-style */
+/* position */
+.remark-slide-content .blockquote {
+    position: relative;
+}
+.remark-slide-content .blockquote::before {
+    position: absolute;
+    top: -.3em; left: 0rem;
+}
+.remark-slide-content .blockquote::after {
+    position: absolute;
+    bottom: -.6em; right: 0rem;
+}
+/* float */
+.remark-slide-content .float-left {
+    float: left;
+}
+.remark-slide-content .float-right {
+    float: right;
+}
+/* clear */
+/* width */
+/* height */
+/* margin */
+.remark-slide-content .blockquote {
+    margin: 1em 0rem;
+}
+.remark-slide-content .double-column {
+    margin: .5em 0rem;
+}
+.remark-slide-content .double-column > ul {
+    margin: 0em 0rem;
+}
+.remark-slide-content .bracket-enum > ol > li,
+.remark-slide-content .paren-enum > ol > li {
+    margin: .5em 0rem;
+}
+.remark-slide-content .bracket-enum > ol > li > p,
+.remark-slide-content .paren-enum > ol > li > p {
+    margin: 0em 0rem;
+}
+/* padding */
+.remark-slide-content .blockquote {
+    padding: 0em 1.5rem;
+}
+.remark-slide-content .bracket-enum > ol,
+.remark-slide-content .paren-enum > ol {
+    padding-left: 0rem;
+}
+.remark-slide-content .bracket-enum > ol > li:before,
+.remark-slide-content .paren-enum > ol > li:before {
+    padding-right: .25rem;
+}
+/* border */
+/* background */
+.remark-slide-content .blockquote {
+    background: var(--color-front);
+}
+/* color */
+/* font */
+.remark-slide-content .blockquote::before,
+.remark-slide-content .blockquote::after {
+    font-family: "Noto Serif";
+    font-size: 2em;
+ }
+/* text-decoration */
+/* text-align */
+/* vertical-align */
+/* white-space */
+/* other text */
+/* content */
+.remark-slide-content .blockquote::before {
+    content: "\201C";
+}
+.remark-slide-content .blockquote::after {
+    content: "\201D";
+}
+.remark-slide-content .double-column {
+    column-count: 2;
+}
+.remark-slide-content .bracket-enum > ol > li,
+.remark-slide-content .paren-enum > ol > li {
+    counter-increment: cnt;
+}
+.remark-slide-content .bracket-enum > ol > li:before {
+    content: "[" counter(cnt) "]";
+}
+.remark-slide-content .paren-enum > ol > li:before {
+    content: "(" counter(cnt) ")";
+}

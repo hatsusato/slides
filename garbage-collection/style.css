@@ -1,0 +1,96 @@
+/* display */
+.remark-slide-content .underline {
+    display: inline-block;
+}
+.remark-slide-content .underline:before {
+    box-sizing: border-box;
+}
+.remark-slide-content .group {
+    display: inline-block;
+}
+/* list-style */
+/* position */
+.remark-slide-content .underline {
+    position: relative;
+}
+.remark-slide-content .underline:before {
+    position: absolute;
+    left: 0px; right: 0px;
+    bottom: 4px;
+}
+/* float */
+/* clear */
+/* width */
+/* height */
+.remark-slide-content .underline:before {
+    height: 2px;
+}
+/* margin */
+.remark-slide-content .less-margin > * {
+    margin: .25em 0rem;
+}
+.remark-slide-content .no-margin > * {
+    margin: 0em 0rem;
+}
+.remark-slide-content li .oneline {
+    margin: .25em 0rem;
+}
+.remark-slide-content .oneline {
+    margin: .5em 0rem;
+}
+.remark-slide-content .oneline > p {
+    margin: 0em 0rem;
+}
+/* padding */
+/* border */
+/* background */
+.remark-slide-content .underline:before {
+    background: currentColor;
+}
+.remark-slide-content .nohighlight code.hljs .remark-code-line-highlighted {
+    background: white;
+}
+/* color */
+.remark-slide-content .gray {
+    color: gray;
+}
+.remark-slide-content .phantom {
+    opacity: .0;
+}
+/* font */
+.remark-slide-content ruby > rt {
+    font-size: .6em;
+}
+.remark-slide-content .large {
+    font-size: 1.2em;
+}
+.remark-slide-content .small {
+    font-size: .8em;
+}
+.remark-slide-content ruby {
+    font-weight: bold;
+}
+.remark-slide-content .bold {
+    font-weight: bold;
+}
+.remark-slide-content .italic {
+    font-style: italic;
+}
+.remark-slide-content .italic code.remark-inline-code {
+    font-style: normal;
+}
+/* text-decoration */
+.remark-slide-content .underline {
+    text-decoration: none;
+}
+.remark-slide-content .del {
+    text-decoration: line-through;
+}
+/* text-align */
+/* vertical-align */
+/* white-space */
+/* other text */
+/* content */
+.remark-slide-content .underline:before {
+    content: "";
+}
